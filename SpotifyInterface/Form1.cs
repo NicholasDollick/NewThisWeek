@@ -14,6 +14,7 @@ using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;
 using SpotifyAPI.Web.Models;
 using System.Windows.Forms;
+using System.IO;
 
 namespace SpotifyInterface
 {
@@ -21,15 +22,13 @@ namespace SpotifyInterface
     {
         private readonly ProxyConfig proxyConfig;
         private SpotifyWebAPI spotify;
-
         private PrivateProfile profile;
-
-
 
         public Form1()
         {
             InitializeComponent();
             proxyConfig = new ProxyConfig();
+            button1.Enabled = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -38,8 +37,7 @@ namespace SpotifyInterface
 
             foreach (SimplePlaylist list in test)
             {
-                playlistsListBox.Items.Add(list.Href);
-                listBox1.Items.Add(list.Name);
+                playlistsListBox.Items.Add(list.Name);
             }
         }
 
@@ -53,6 +51,22 @@ namespace SpotifyInterface
 
             authButton.Enabled = false;
             profile = await spotify.GetPrivateProfileAsync();
+            nameLabel.Text = profile.DisplayName;
+            countryLabel.Text = profile.Country;
+            emailLabel.Text = profile.Email;
+            accountLabel.Text = profile.Product;
+
+            if(profile.Images != null && profile.Images.Count > 0)
+            {
+                using (WebClient wc = new WebClient())
+                {
+                    byte[] imageBytes = await wc.DownloadDataTaskAsync(new Uri(profile.Images[0].Url));
+                    using (MemoryStream stream = new MemoryStream(imageBytes))
+                        pictureBox.Image = System.Drawing.Image.FromStream(stream);
+                }
+            }
+
+            button1.Enabled = true;
         }
 
         private List<SimplePlaylist> GetPlaylists()
