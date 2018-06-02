@@ -44,9 +44,9 @@
             this.button2 = new System.Windows.Forms.Button();
             this.openFileButton = new System.Windows.Forms.Button();
             this.fileNameTextBox = new System.Windows.Forms.TextBox();
-            this.tempButton = new System.Windows.Forms.Button();
             this.fromFile = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -58,7 +58,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
+            this.button1.Text = "Run";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -192,7 +192,7 @@
             // openFileButton
             // 
             this.openFileButton.Image = global::SpotifyInterface.Properties.Resources.if_Open_1493293;
-            this.openFileButton.Location = new System.Drawing.Point(544, 88);
+            this.openFileButton.Location = new System.Drawing.Point(30, 386);
             this.openFileButton.Name = "openFileButton";
             this.openFileButton.Size = new System.Drawing.Size(27, 23);
             this.openFileButton.TabIndex = 25;
@@ -201,20 +201,10 @@
             // 
             // fileNameTextBox
             // 
-            this.fileNameTextBox.Location = new System.Drawing.Point(572, 90);
+            this.fileNameTextBox.Location = new System.Drawing.Point(58, 388);
             this.fileNameTextBox.Name = "fileNameTextBox";
             this.fileNameTextBox.Size = new System.Drawing.Size(100, 20);
             this.fileNameTextBox.TabIndex = 26;
-            // 
-            // tempButton
-            // 
-            this.tempButton.Location = new System.Drawing.Point(572, 252);
-            this.tempButton.Name = "tempButton";
-            this.tempButton.Size = new System.Drawing.Size(75, 23);
-            this.tempButton.TabIndex = 27;
-            this.tempButton.Text = "Test Button";
-            this.tempButton.UseVisualStyleBackColor = true;
-            this.tempButton.Click += new System.EventHandler(this.tempButton_Click);
             // 
             // fromFile
             // 
@@ -237,13 +227,22 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Input Controls";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(241, 24);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(107, 13);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "Tracks Being Added:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(714, 479);
+            this.ClientSize = new System.Drawing.Size(478, 479);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.tempButton);
             this.Controls.Add(this.fileNameTextBox);
             this.Controls.Add(this.openFileButton);
             this.Controls.Add(this.button2);
@@ -282,9 +281,9 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button openFileButton;
         private System.Windows.Forms.TextBox fileNameTextBox;
-        private System.Windows.Forms.Button tempButton;
         private System.Windows.Forms.RadioButton fromFile;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label5;
     }
 }
 

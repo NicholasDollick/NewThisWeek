@@ -35,13 +35,16 @@ namespace SpotifyInterface
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CreatePlaylist();
-            List<SimplePlaylist> test = GetPlaylists();
+            List<string> tempList = new List<string>();
 
-            
-            foreach (SimplePlaylist list in test)
+            if (fileNameTextBox.Text == "")
+                MessageBox.Show("Please Select Valid File");
+            else
             {
-                playlistsListBox.Items.Add(list.Name);
+                if (fromFile.Checked == true)
+                    tempList = ReadIn(filePath);
+
+                CreatePlaylist(tempList);
             }
         }
 
@@ -71,40 +74,6 @@ namespace SpotifyInterface
             }
 
             button1.Enabled = true;
-        }
-
-        private List<SimplePlaylist> GetPlaylists()
-        {
-            Paging<SimplePlaylist> playlists = spotify.GetUserPlaylists(profile.Id);
-            List<SimplePlaylist> list = playlists.Items.ToList();
-
-            while (playlists.Next != null)
-            {
-                playlists = spotify.GetUserPlaylists(profile.Id, 20, playlists.Offset + playlists.Limit);
-                list.AddRange(playlists.Items);
-            }
-
-            return list;
-        }
-
-        private void CreatePlaylist()
-        {
-            FullPlaylist newReleases = spotify.CreatePlaylist(profile.Id, DateTime.Now.ToString("MM/dd") + " Releases");
-            
-            if (!newReleases.HasError())
-                MessageBox.Show("Playlist Created!");
-            if (newReleases.HasError()) //This might need more graceful integration
-                Console.WriteLine(newReleases.Error.Message);
-
-            SearchItem song = spotify.SearchItems("Great Spirit - Armin van buuren", SearchType.Track);
-            
-            ErrorResponse response = spotify.AddPlaylistTrack(profile.Id, newReleases.Id, song.Tracks.Items[0].Uri);
-
-            if (!response.HasError())
-                MessageBox.Show("Track Added!");
-            if (response.HasError()) //This might need more graceful integration
-                Console.WriteLine(response.Error.Message);
-
         }
 
         private async void RunAuthentication()
@@ -150,21 +119,6 @@ namespace SpotifyInterface
             }
         }
 
-        private void tempButton_Click(object sender, EventArgs e)
-        {
-            List<string> tempList = new List<string>();
-
-            if (fileNameTextBox.Text == "")
-                MessageBox.Show("Please Select Valid File");
-            else
-            {
-                if(fromFile.Checked == true)
-                    tempList = ReadIn(filePath);
-
-                CreatePlaylist(tempList);
-            }
-        }
-
         private List<string> ReadIn(string fileName)
         {
             List<string> tracks = new List<string>();
@@ -184,8 +138,6 @@ namespace SpotifyInterface
             SearchItem song = new SearchItem();
             ErrorResponse response = new ErrorResponse();
 
-            //if (!newReleases.HasError())
-               // MessageBox.Show("Playlist Created!");
             if (newReleases.HasError()) //This might need more graceful integration
                 Console.WriteLine(newReleases.Error.Message);
 
@@ -199,6 +151,7 @@ namespace SpotifyInterface
                         response = spotify.AddPlaylistTrack(profile.Id, newReleases.Id, song.Tracks.Items[0].Uri);
                         playlistsListBox.Items.Add(song.Tracks.Items[0].Name);
                     }
+
                     if (response.HasError()) //This might need more graceful integration
                         Console.WriteLine(response.Error.Message);
                 }
@@ -208,17 +161,16 @@ namespace SpotifyInterface
                     if(song.Albums.Total > 0)
                     {
                         FullAlbum album = spotify.GetAlbum(song.Albums.Items[0].Id);
-                        for(int i = 0; i < album.Tracks.Total; i++)
+                        for (int i = 0; i < album.Tracks.Total; i++)
+                        {
                             response = spotify.AddPlaylistTrack(profile.Id, newReleases.Id, album.Tracks.Items[i].Uri);
+                            playlistsListBox.Items.Add(album.Tracks.Items[i].Name);
+                        }
                     }
                 }
             }
-            // SearchItem song = spotify.SearchItems("Great Spirit - Armin van buuren", SearchType.Track);
 
-            // ErrorResponse response = spotify.AddPlaylistTrack(profile.Id, newReleases.Id, song.Tracks.Items[0].Uri);
             MessageBox.Show("Playlist Created!");
-            //if (!response.HasError())
-                //MessageBox.Show("Track Added!");
             if (response.HasError()) //This might need more graceful integration
                 Console.WriteLine(response.Error.Message);
 
