@@ -33,8 +33,10 @@ namespace SpotifyInterface
 
         private void button1_Click(object sender, EventArgs e)
         {
+            CreatePlaylist();
             List<SimplePlaylist> test = GetPlaylists();
 
+            
             foreach (SimplePlaylist list in test)
             {
                 playlistsListBox.Items.Add(list.Name);
@@ -83,12 +85,32 @@ namespace SpotifyInterface
             return list;
         }
 
+        private void CreatePlaylist()
+        {
+            FullPlaylist newReleases = spotify.CreatePlaylist(profile.Id, DateTime.Now.ToString("MM/dd") + " Releases");
+            
+            if (!newReleases.HasError())
+                MessageBox.Show("Playlist Created!");
+            if (newReleases.HasError()) //This might need more graceful integration
+                Console.WriteLine(newReleases.Error.Message);
+
+            SearchItem song = spotify.SearchItems("Great Spirit - Armin van buuren", SearchType.Track);
+
+            ErrorResponse response = spotify.AddPlaylistTrack(profile.Id, newReleases.Id, song.Tracks.Items[0].Uri);
+
+            if (!response.HasError())
+                MessageBox.Show("Track Added!");
+            if (response.HasError()) //This might need more graceful integration
+                Console.WriteLine(response.Error.Message);
+
+        }
+
         private async void RunAuthentication()
         {
             WebAPIFactory webApiFactory = new WebAPIFactory(
                 "http://localhost", 8000, "spotify client id",
                 Scope.UserReadPrivate | Scope.UserReadEmail | Scope.PlaylistReadPrivate | Scope.UserLibraryRead |
-                Scope.UserReadPrivate | Scope.UserFollowRead | Scope.UserReadBirthdate | Scope.UserTopRead | Scope.PlaylistReadCollaborative |
+                Scope.PlaylistModifyPublic | Scope.UserFollowRead | Scope.UserReadBirthdate | Scope.UserTopRead | Scope.PlaylistReadCollaborative |
                 Scope.UserReadRecentlyPlayed | Scope.UserReadPlaybackState | Scope.UserModifyPlaybackState);
 
             try
@@ -109,6 +131,11 @@ namespace SpotifyInterface
         private void authButton_Click(object sender, EventArgs e)
         {
             Task.Run(() => RunAuthentication());
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
