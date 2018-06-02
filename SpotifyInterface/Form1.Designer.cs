@@ -47,6 +47,8 @@
             this.fromFile = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.testButton = new System.Windows.Forms.Button();
+            this.urlBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -236,11 +238,30 @@
             this.label5.TabIndex = 30;
             this.label5.Text = "Tracks Being Added:";
             // 
+            // testButton
+            // 
+            this.testButton.Location = new System.Drawing.Point(130, 444);
+            this.testButton.Name = "testButton";
+            this.testButton.Size = new System.Drawing.Size(75, 23);
+            this.testButton.TabIndex = 31;
+            this.testButton.Text = "button3";
+            this.testButton.UseVisualStyleBackColor = true;
+            this.testButton.Click += new System.EventHandler(this.testButton_Click);
+            // 
+            // urlBox
+            // 
+            this.urlBox.Location = new System.Drawing.Point(58, 415);
+            this.urlBox.Name = "urlBox";
+            this.urlBox.Size = new System.Drawing.Size(100, 20);
+            this.urlBox.TabIndex = 32;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(478, 479);
+            this.Controls.Add(this.urlBox);
+            this.Controls.Add(this.testButton);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.fileNameTextBox);
@@ -252,7 +273,8 @@
             this.Controls.Add(this.authButton);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "New This Week";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
@@ -284,6 +306,8 @@
         private System.Windows.Forms.RadioButton fromFile;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button testButton;
+        private System.Windows.Forms.TextBox urlBox;
     }
 }
 

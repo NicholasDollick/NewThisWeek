@@ -15,6 +15,9 @@ using SpotifyAPI.Web.Enums;
 using SpotifyAPI.Web.Models;
 using System.Windows.Forms;
 using System.IO;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace SpotifyInterface
 {
@@ -24,6 +27,7 @@ namespace SpotifyInterface
         private SpotifyWebAPI spotify;
         private PrivateProfile profile;
         private OpenFileDialog ofd = new OpenFileDialog();
+        ChromeOptions options = new ChromeOptions();
         private string filePath = "";
 
         public Form1()
@@ -126,10 +130,55 @@ namespace SpotifyInterface
             foreach (string line in File.ReadAllLines(fileName))
             {
                 if(line != "")
-                    tracks.Add(line);
+                {
+                    if (line.Contains("feat."))
+                        tracks.Add(noFeat(line));
+                    else if (line.Contains("&"))
+                        tracks.Add(noAnd(line));
+                    else
+                        tracks.Add(line);
+                }
             }
 
             return tracks;
+        }
+
+        public static string noAnd(String text)
+        {
+            StringBuilder sb = new StringBuilder();
+            char[] content = text.ToCharArray();
+
+            for (int i = 0; i < content.Length; i++)
+            {
+
+                if (content[i] == '&')
+                    while (content[i] != '-')
+                        i++;
+                sb.Append(content[i]);
+
+            }
+
+            return sb.ToString();
+        }
+
+        public static string noFeat(String text)
+        {
+            StringBuilder sb = new StringBuilder();
+            char[] content = text.ToCharArray();
+            for (int i = 0; i < content.Length; i++)
+            {
+
+                if (content[i] == 'f' && content[i + 2] == 'e' && content[i + 3] == 'a' && content[i + 4] == 't')
+                    while (content[i] != '-')
+                        i++;
+                sb.Append(content[i]);
+
+            }
+
+            if (sb.ToString().Contains("&"))
+                return noAnd(sb.ToString());
+            else
+                return sb.ToString();
         }
 
         private void CreatePlaylist(List<string> tracks)
@@ -174,6 +223,19 @@ namespace SpotifyInterface
             if (response.HasError()) //This might need more graceful integration
                 Console.WriteLine(response.Error.Message);
 
+        }
+
+        private void testButton_Click(object sender, EventArgs e)
+        {
+            options.AddArguments("headless");
+            options.AddArguments("disable-gpu");
+            options.AddArguments("no-sandbox");
+            IWebDriver browser = new ChromeDriver(options);
+
+            browser.Navigate().GoToUrl(urlBox.Text);
+            var results = browser.FindElement(By.XPath("//*[@id=\"form - t3_8n84olvn1\"]/div/div")).Text;
+            //foreach (string line in results)
+                Console.WriteLine(results);
         }
     }
 }
