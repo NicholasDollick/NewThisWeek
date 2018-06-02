@@ -4,7 +4,7 @@ Take an input either as text file or url, and creates a spotify playlist of all 
 
 packages used
 ```
-Spotify API
+SpotifyAPI-NET
 Reddit API
 Selenium
 ```

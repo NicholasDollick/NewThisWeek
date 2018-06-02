@@ -42,8 +42,14 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.openFileButton = new System.Windows.Forms.Button();
+            this.fileNameTextBox = new System.Windows.Forms.TextBox();
+            this.tempButton = new System.Windows.Forms.Button();
+            this.fromFile = new System.Windows.Forms.RadioButton();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -183,11 +189,63 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // openFileButton
+            // 
+            this.openFileButton.Image = global::SpotifyInterface.Properties.Resources.if_Open_1493293;
+            this.openFileButton.Location = new System.Drawing.Point(544, 88);
+            this.openFileButton.Name = "openFileButton";
+            this.openFileButton.Size = new System.Drawing.Size(27, 23);
+            this.openFileButton.TabIndex = 25;
+            this.openFileButton.UseVisualStyleBackColor = true;
+            this.openFileButton.Click += new System.EventHandler(this.openFileButton_Click);
+            // 
+            // fileNameTextBox
+            // 
+            this.fileNameTextBox.Location = new System.Drawing.Point(572, 90);
+            this.fileNameTextBox.Name = "fileNameTextBox";
+            this.fileNameTextBox.Size = new System.Drawing.Size(100, 20);
+            this.fileNameTextBox.TabIndex = 26;
+            // 
+            // tempButton
+            // 
+            this.tempButton.Location = new System.Drawing.Point(572, 252);
+            this.tempButton.Name = "tempButton";
+            this.tempButton.Size = new System.Drawing.Size(75, 23);
+            this.tempButton.TabIndex = 27;
+            this.tempButton.Text = "Test Button";
+            this.tempButton.UseVisualStyleBackColor = true;
+            this.tempButton.Click += new System.EventHandler(this.tempButton_Click);
+            // 
+            // fromFile
+            // 
+            this.fromFile.AutoSize = true;
+            this.fromFile.Location = new System.Drawing.Point(9, 21);
+            this.fromFile.Name = "fromFile";
+            this.fromFile.Size = new System.Drawing.Size(87, 17);
+            this.fromFile.TabIndex = 28;
+            this.fromFile.TabStop = true;
+            this.fromFile.Text = "Data from file";
+            this.fromFile.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.fromFile);
+            this.groupBox2.Location = new System.Drawing.Point(21, 282);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(200, 100);
+            this.groupBox2.TabIndex = 29;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Input Controls";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(486, 479);
+            this.ClientSize = new System.Drawing.Size(714, 479);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.tempButton);
+            this.Controls.Add(this.fileNameTextBox);
+            this.Controls.Add(this.openFileButton);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.groupBox1);
@@ -199,7 +257,10 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -219,6 +280,11 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button openFileButton;
+        private System.Windows.Forms.TextBox fileNameTextBox;
+        private System.Windows.Forms.Button tempButton;
+        private System.Windows.Forms.RadioButton fromFile;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
 
