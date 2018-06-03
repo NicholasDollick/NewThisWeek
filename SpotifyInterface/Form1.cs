@@ -23,17 +23,15 @@ namespace SpotifyInterface
 {
     public partial class Form1 : Form
     {
-        private readonly ProxyConfig proxyConfig;
         private SpotifyWebAPI spotify;
         private PrivateProfile profile;
         private OpenFileDialog ofd = new OpenFileDialog();
-        ChromeOptions options = new ChromeOptions();
+        private ChromeOptions options = new ChromeOptions();
         private string filePath = "";
 
         public Form1()
         {
             InitializeComponent();
-            proxyConfig = new ProxyConfig();
             button1.Enabled = false;
         }
 
@@ -46,9 +44,28 @@ namespace SpotifyInterface
             else
             {
                 if (fromFile.Checked == true)
+                {
                     tempList = ReadIn(filePath);
+                    CreatePlaylist(tempList);
+                }
 
-                CreatePlaylist(tempList);
+                if(fromMonitor.Checked == true)
+                {
+                    Boolean flag = false;
+                    TimeSpan target = new TimeSpan(9, 0, 0); //target time to search is 9pm
+                    while(!flag)
+                    {
+                        TimeSpan now = DateTime.Now.TimeOfDay;
+                        if (now > target)
+                        {
+                            tempList = ReadIn(filePath);
+                            CreatePlaylist(tempList);
+                            flag = true;
+                        }
+                    }
+                }
+
+
             }
         }
 
@@ -150,12 +167,10 @@ namespace SpotifyInterface
 
             for (int i = 0; i < content.Length; i++)
             {
-
                 if (content[i] == '&')
                     while (content[i] != '-')
                         i++;
                 sb.Append(content[i]);
-
             }
 
             return sb.ToString();
@@ -167,12 +182,10 @@ namespace SpotifyInterface
             char[] content = text.ToCharArray();
             for (int i = 0; i < content.Length; i++)
             {
-
                 if (content[i] == 'f' && content[i + 2] == 'e' && content[i + 3] == 'a' && content[i + 4] == 't')
                     while (content[i] != '-')
                         i++;
                 sb.Append(content[i]);
-
             }
 
             if (sb.ToString().Contains("&"))
@@ -225,17 +238,20 @@ namespace SpotifyInterface
 
         }
 
-        private void testButton_Click(object sender, EventArgs e)
+        private void test()
         {
-            options.AddArguments("headless");
+            StringBuilder sb = new StringBuilder();
+            //options.AddArguments("headless");
             options.AddArguments("disable-gpu");
             options.AddArguments("no-sandbox");
             IWebDriver browser = new ChromeDriver(options);
 
             browser.Navigate().GoToUrl(urlBox.Text);
-            var results = browser.FindElement(By.XPath("//*[@id=\"form - t3_8n84olvn1\"]/div/div")).Text;
-            //foreach (string line in results)
-                Console.WriteLine(results);
+            var results = browser.FindElement(By.CssSelector("#form-t3_8n84olz29 > div > div")).Text;
+            foreach (char letter in results)
+                sb.Append(letter);
+            string test = sb.ToString();
+            Console.WriteLine(test[0]);
         }
     }
 }

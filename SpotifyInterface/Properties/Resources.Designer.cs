@@ -63,6 +63,16 @@ namespace SpotifyInterface.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap if_Internet_Line_20_1587498 {
+            get {
+                object obj = ResourceManager.GetObject("if_Internet_Line-20_1587498", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap if_Open_1493293 {
             get {
                 object obj = ResourceManager.GetObject("if_Open_1493293", resourceCulture);

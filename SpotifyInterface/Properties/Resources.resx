@@ -121,4 +121,7 @@
   <data name="if_Open_1493293" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Icons\if_Open_1493293.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="if_Internet_Line-20_1587498" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\if_Internet_Line-20_1587498.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

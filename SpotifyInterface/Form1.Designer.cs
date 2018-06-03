@@ -40,23 +40,26 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.pictureBox = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.openFileButton = new System.Windows.Forms.Button();
             this.fileNameTextBox = new System.Windows.Forms.TextBox();
             this.fromFile = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.fromMonitor = new System.Windows.Forms.RadioButton();
+            this.fromUrl = new System.Windows.Forms.RadioButton();
             this.label5 = new System.Windows.Forms.Label();
-            this.testButton = new System.Windows.Forms.Button();
             this.urlBox = new System.Windows.Forms.TextBox();
+            this.openFileButton = new System.Windows.Forms.Button();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(232, 426);
+            this.button1.Location = new System.Drawing.Point(382, 388);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -171,19 +174,9 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "User Details";
             // 
-            // pictureBox
-            // 
-            this.pictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox.Location = new System.Drawing.Point(75, 12);
-            this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(100, 100);
-            this.pictureBox.TabIndex = 23;
-            this.pictureBox.TabStop = false;
-            // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(359, 426);
+            this.button2.Location = new System.Drawing.Point(463, 388);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 24;
@@ -191,19 +184,9 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // openFileButton
-            // 
-            this.openFileButton.Image = global::SpotifyInterface.Properties.Resources.if_Open_1493293;
-            this.openFileButton.Location = new System.Drawing.Point(30, 386);
-            this.openFileButton.Name = "openFileButton";
-            this.openFileButton.Size = new System.Drawing.Size(27, 23);
-            this.openFileButton.TabIndex = 25;
-            this.openFileButton.UseVisualStyleBackColor = true;
-            this.openFileButton.Click += new System.EventHandler(this.openFileButton_Click);
-            // 
             // fileNameTextBox
             // 
-            this.fileNameTextBox.Location = new System.Drawing.Point(58, 388);
+            this.fileNameTextBox.Location = new System.Drawing.Point(481, 40);
             this.fileNameTextBox.Name = "fileNameTextBox";
             this.fileNameTextBox.Size = new System.Drawing.Size(100, 20);
             this.fileNameTextBox.TabIndex = 26;
@@ -221,6 +204,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.fromMonitor);
+            this.groupBox2.Controls.Add(this.fromUrl);
             this.groupBox2.Controls.Add(this.fromFile);
             this.groupBox2.Location = new System.Drawing.Point(21, 282);
             this.groupBox2.Name = "groupBox2";
@@ -228,6 +213,28 @@
             this.groupBox2.TabIndex = 29;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Input Controls";
+            // 
+            // fromMonitor
+            // 
+            this.fromMonitor.AutoSize = true;
+            this.fromMonitor.Location = new System.Drawing.Point(10, 67);
+            this.fromMonitor.Name = "fromMonitor";
+            this.fromMonitor.Size = new System.Drawing.Size(86, 17);
+            this.fromMonitor.TabIndex = 30;
+            this.fromMonitor.TabStop = true;
+            this.fromMonitor.Text = "Time Monitor";
+            this.fromMonitor.UseVisualStyleBackColor = true;
+            // 
+            // fromUrl
+            // 
+            this.fromUrl.AutoSize = true;
+            this.fromUrl.Location = new System.Drawing.Point(9, 44);
+            this.fromUrl.Name = "fromUrl";
+            this.fromUrl.Size = new System.Drawing.Size(85, 17);
+            this.fromUrl.TabIndex = 29;
+            this.fromUrl.TabStop = true;
+            this.fromUrl.Text = "Data from url";
+            this.fromUrl.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
@@ -238,30 +245,50 @@
             this.label5.TabIndex = 30;
             this.label5.Text = "Tracks Being Added:";
             // 
-            // testButton
-            // 
-            this.testButton.Location = new System.Drawing.Point(130, 444);
-            this.testButton.Name = "testButton";
-            this.testButton.Size = new System.Drawing.Size(75, 23);
-            this.testButton.TabIndex = 31;
-            this.testButton.Text = "button3";
-            this.testButton.UseVisualStyleBackColor = true;
-            this.testButton.Click += new System.EventHandler(this.testButton_Click);
-            // 
             // urlBox
             // 
-            this.urlBox.Location = new System.Drawing.Point(58, 415);
+            this.urlBox.Location = new System.Drawing.Point(481, 66);
             this.urlBox.Name = "urlBox";
             this.urlBox.Size = new System.Drawing.Size(100, 20);
             this.urlBox.TabIndex = 32;
+            // 
+            // openFileButton
+            // 
+            this.openFileButton.Image = global::SpotifyInterface.Properties.Resources.if_Open_1493293;
+            this.openFileButton.Location = new System.Drawing.Point(453, 38);
+            this.openFileButton.Name = "openFileButton";
+            this.openFileButton.Size = new System.Drawing.Size(27, 23);
+            this.openFileButton.TabIndex = 25;
+            this.openFileButton.UseVisualStyleBackColor = true;
+            this.openFileButton.Click += new System.EventHandler(this.openFileButton_Click);
+            // 
+            // pictureBox
+            // 
+            this.pictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox.Location = new System.Drawing.Point(75, 12);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(100, 100);
+            this.pictureBox.TabIndex = 23;
+            this.pictureBox.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::SpotifyInterface.Properties.Resources.if_Internet_Line_20_1587498;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pictureBox1.Location = new System.Drawing.Point(458, 65);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(23, 23);
+            this.pictureBox1.TabIndex = 34;
+            this.pictureBox1.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(478, 479);
+            this.ClientSize = new System.Drawing.Size(602, 428);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.urlBox);
-            this.Controls.Add(this.testButton);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.fileNameTextBox);
@@ -277,9 +304,10 @@
             this.Text = "New This Week";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -306,8 +334,10 @@
         private System.Windows.Forms.RadioButton fromFile;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button testButton;
         private System.Windows.Forms.TextBox urlBox;
+        private System.Windows.Forms.RadioButton fromMonitor;
+        private System.Windows.Forms.RadioButton fromUrl;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
