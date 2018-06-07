@@ -69,7 +69,7 @@
             // 
             // authButton
             // 
-            this.authButton.Location = new System.Drawing.Point(46, 237);
+            this.authButton.Location = new System.Drawing.Point(46, 241);
             this.authButton.Name = "authButton";
             this.authButton.Size = new System.Drawing.Size(142, 28);
             this.authButton.TabIndex = 1;

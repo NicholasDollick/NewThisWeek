@@ -52,8 +52,10 @@ namespace SpotifyInterface
                 if(fromMonitor.Checked == true)
                 {
                     Boolean flag = false;
-                    TimeSpan target = new TimeSpan(9, 0, 0); //target time to search is 9pm
-                    while(!flag)
+                    TimeSpan target = new TimeSpan(21, 0, 0); //target time to search is 9pm
+                    button1.Enabled = false;
+                    MessageBox.Show("Entering Monitor Mode");
+                    while (!flag)
                     {
                         TimeSpan now = DateTime.Now.TimeOfDay;
                         if (now > target)
@@ -61,10 +63,10 @@ namespace SpotifyInterface
                             tempList = ReadIn(filePath);
                             CreatePlaylist(tempList);
                             flag = true;
+                            button1.Enabled = true;
                         }
                     }
                 }
-
 
             }
         }
@@ -100,7 +102,7 @@ namespace SpotifyInterface
         private async void RunAuthentication()
         {
             WebAPIFactory webApiFactory = new WebAPIFactory(
-                "http://localhost", 8000, "spotify client id",
+                "http://localhost", 8000, "78c190180d5e4e79baf28a7ad4c04018",
                 Scope.UserReadPrivate | Scope.UserReadEmail | Scope.PlaylistReadPrivate | Scope.UserLibraryRead |
                 Scope.PlaylistModifyPublic | Scope.UserFollowRead | Scope.UserReadBirthdate | Scope.UserTopRead | Scope.PlaylistReadCollaborative |
                 Scope.UserReadRecentlyPlayed | Scope.UserReadPlaybackState | Scope.UserModifyPlaybackState);
