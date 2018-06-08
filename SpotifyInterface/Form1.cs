@@ -175,7 +175,10 @@ namespace SpotifyInterface
                 sb.Append(content[i]);
             }
 
-            return sb.ToString();
+            if (sb.ToString().Contains("feat."))
+                return noFeat(sb.ToString());
+            else
+                return sb.ToString();
         }
 
         public static string noFeat(String text)

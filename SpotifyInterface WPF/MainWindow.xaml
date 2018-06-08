@@ -7,6 +7,13 @@
         mc:Ignorable="d" FontSize="15" FontFamily="Calibri"
         Title="New This Week" Height="420" Width="525">
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFB2B2B2" Offset="0"/>
+                <GradientStop Color="White" Offset="1"/>
+                <GradientStop Color="#FFF3F3F3" Offset="0.537"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="auto"/>
@@ -29,8 +36,11 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <Image x:Name="userIcon" Grid.Row="1" Grid.Column="1" Grid.RowSpan="1" Grid.ColumnSpan="1" Source="C:\Users\Carter\Dropbox\‪1483559400759.jpg"
-               ClipToBounds="True" Margin="10" Width="120" Height="120"/>
+        <Image x:Name="userIcon" Grid.Row="1" Grid.Column="1" Grid.RowSpan="1" Grid.ColumnSpan="1" Source="" Margin="10" Width="120" Height="120" OpacityMask="{x:Null}">
+            <Image.Effect>
+                <DropShadowEffect BlurRadius="30" ShadowDepth="1" Opacity="0.4"/>
+            </Image.Effect>
+        </Image>
 
         <GroupBox Grid.Row="2" Grid.Column="1" Header="User Details" Margin="0,0,5,0">
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical">
@@ -51,19 +61,20 @@
             </Button.Background>
         </Button>
 
-        <GroupBox Grid.Row="4" Grid.Column="1" Header="Input Controls">
+        <GroupBox Grid.Row="4" Grid.Column="1" Header="Input Controls" Margin="0,0,5,0">
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical">
-                <RadioButton x:Name="fromFile" Content="Data from file" />
+                <RadioButton x:Name="fromFile" Content="Data from file" Margin="0,5,0,5" />
             </StackPanel>
         </GroupBox>
 
-        <ListBox x:Name="playListBox" Grid.Row="1" Grid.Column="2" Grid.RowSpan="5" Grid.ColumnSpan="1">
-            <ListBoxItem>
-                <TextBlock Text="                                           "/>
-            </ListBoxItem>
+        <TextBlock Grid.Row="1" Grid.Column="2" Text="Tracks being added:" 
+                   FontSize="12" Margin="0,20,0,15"/>
+
+        <ListBox x:Name="playListBox"  Grid.Row="1" Grid.Column="2"
+                 Margin="0,35,0,0" Height="300" Width="150"
+                 Grid.RowSpan="4" VerticalAlignment="Stretch"
+                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
         </ListBox>
-
-
-
     </Grid>
 </Window>
