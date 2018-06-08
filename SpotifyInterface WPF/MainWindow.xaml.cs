@@ -23,6 +23,12 @@ namespace SpotifyInterface_WPF
         public MainWindow()
         {
             InitializeComponent();
+            authButton.IsEnabled = true;
+        }
+
+        private void authButton_Click(object sender, RoutedEventArgs e)
+        {
+            playListBox.Items.Add("test");
         }
     }
 }
