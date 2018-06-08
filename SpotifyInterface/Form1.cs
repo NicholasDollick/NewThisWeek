@@ -210,7 +210,20 @@ namespace SpotifyInterface
 
            foreach (string target in tracks)
             {
-                if(!target.Contains("EP"))
+                if(target.Contains("EP") || target.Contains("Album") || target.Contains("Remixes"))
+                {
+                    song = spotify.SearchItems(target, SearchType.Album);
+                    if (song.Albums.Total > 0)
+                    {
+                        FullAlbum album = spotify.GetAlbum(song.Albums.Items[0].Id);
+                        for (int i = 0; i < album.Tracks.Total; i++)
+                        {
+                            response = spotify.AddPlaylistTrack(profile.Id, newReleases.Id, album.Tracks.Items[i].Uri);
+                            playlistsListBox.Items.Add(album.Tracks.Items[i].Name);
+                        }
+                    }
+                }
+                else
                 {
                     song = spotify.SearchItems(target, SearchType.Track);
                     if (song.Tracks.Items.Count > 0)
@@ -221,19 +234,6 @@ namespace SpotifyInterface
 
                     if (response.HasError()) //This might need more graceful integration
                         Console.WriteLine(response.Error.Message);
-                }
-                else
-                {
-                    song = spotify.SearchItems(target, SearchType.Album);
-                    if(song.Albums.Total > 0)
-                    {
-                        FullAlbum album = spotify.GetAlbum(song.Albums.Items[0].Id);
-                        for (int i = 0; i < album.Tracks.Total; i++)
-                        {
-                            response = spotify.AddPlaylistTrack(profile.Id, newReleases.Id, album.Tracks.Items[i].Uri);
-                            playlistsListBox.Items.Add(album.Tracks.Items[i].Name);
-                        }
-                    }
                 }
             }
 
