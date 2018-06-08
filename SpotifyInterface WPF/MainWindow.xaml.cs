@@ -52,10 +52,10 @@ namespace SpotifyInterface_WPF
 
             authButton.IsEnabled = false;
             profile = await spotify.GetPrivateProfileAsync();
-            userName.Text = "Name:   " + profile.DisplayName;
-            userCountry.Text = "Country:   " + profile.Country;
-            userEmail.Text = "    Email:   " + profile.Email;
-            accountType.Text = "Account:   " + profile.Product;
+            userName.Text = profile.DisplayName;
+            userCountry.Text = profile.Country;
+            userEmail.Text = profile.Email;
+            accountType.Text = profile.Product;
 
             if (profile.Images != null && profile.Images.Count > 0)
             {
