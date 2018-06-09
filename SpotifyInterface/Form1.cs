@@ -208,7 +208,7 @@ namespace SpotifyInterface
             if (newReleases.HasError()) //This might need more graceful integration
                 Console.WriteLine(newReleases.Error.Message);
 
-           foreach (string target in tracks)
+            foreach (string target in tracks)
             {
                 if(target.Contains("EP") || target.Contains("Album") || target.Contains("Remixes"))
                 {

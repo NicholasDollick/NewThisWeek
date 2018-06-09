@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpotifyInterface_WPF"
         mc:Ignorable="d" FontSize="15" FontFamily="Calibri"
-        Title="New This Week" Height="435" Width="520" ResizeMode="CanResize" WindowStyle="SingleBorderWindow" SizeToContent="Width">
+        Title="New This Week" Height="435" Width="520" ResizeMode="CanResize" 
+        SizeToContent="Width">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -105,7 +106,30 @@
                  ScrollViewer.VerticalScrollBarVisibility="Visible"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
         </ListBox>
-        
+
+        <Grid Grid.Row="1" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="openFileButton" Grid.Row="1" Grid.Column="1" Margin="0,0,0,0" Click="openFileButton_Click">
+                <StackPanel>
+                    <Image Source="E:\C# HW\Personal Proj\RedditToSpotify\SpotifyInterface\Icons\if_Open_1493293.png" />
+                </StackPanel>
+            </Button>
+            <TextBox x:Name="fileNameTextBox" Grid.Row="1" Grid.Column="2" Text="                       "
+                     IsEnabled="False">
+
+            </TextBox>
+        </Grid>
+
         <Grid Grid.Row="5" Grid.Column="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
@@ -117,7 +141,7 @@
             </Grid.RowDefinitions>
 
             <Button x:Name="runButton" Grid.Row="1" Grid.Column="0" Content="     Run     " FontSize="12"
-                    Margin="10,10,0,10"/>
+                    Margin="10,10,0,10" Click="runButton_Click"/>
 
             <Button x:Name="closeButton" Grid.Row="1" Grid.Column="1" Content="     Exit     " FontSize="12"
                     Margin="10,10,0,10" Click="closeButton_Click"/>
