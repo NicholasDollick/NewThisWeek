@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SpotifyInterface_WPF"
         mc:Ignorable="d" FontSize="15" FontFamily="Calibri"
         Title="New This Week" Height="435" Width="520" ResizeMode="CanResize" 
-        SizeToContent="Width">
+        SizeToContent="Width" Icon="https://i.imgur.com/7R4HIfJ.png">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

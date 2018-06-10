@@ -35,7 +35,7 @@ namespace SpotifyInterface_WPF
         {
             if (!Dispatcher.CheckAccess())
             {
-                this.Dispatcher.Invoke(()=> InitialSetup());
+                this.Dispatcher.Invoke(() => InitialSetup());
                 return;
             }
 
