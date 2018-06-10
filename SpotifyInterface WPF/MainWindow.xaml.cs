@@ -28,7 +28,7 @@ namespace SpotifyInterface_WPF
         public MainWindow()
         {
             InitializeComponent();
-            authButton.IsEnabled = true;
+            runButton.IsEnabled = false;
         }
 
         private async void InitialSetup()
@@ -55,6 +55,7 @@ namespace SpotifyInterface_WPF
                 }
             }
             Mouse.OverrideCursor = Cursors.Arrow;
+            runButton.IsEnabled = true;
         }
 
         public BitmapSource ByteArrayToImage(byte[] input)
@@ -110,7 +111,7 @@ namespace SpotifyInterface_WPF
         {
             List<string> tempList = new List<string>();
 
-            if (fileNameTextBox.Text == "")
+            if (fileNameTextBox.Text == "                       ")
                 MessageBox.Show("Please Select Valid File");
             else
             {
@@ -119,6 +120,8 @@ namespace SpotifyInterface_WPF
                     tempList = ReadIn(filePath);
                     CreatePlaylist(tempList);
                 }
+                else
+                    MessageBox.Show("Select Date Type");
             }
         }
 
