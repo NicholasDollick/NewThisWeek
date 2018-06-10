@@ -98,7 +98,7 @@
             </StackPanel>
         </GroupBox>
 
-        <TextBlock Grid.Row="1" Grid.Column="2" Text="Tracks being added:" 
+        <TextBlock Grid.Row="1" Grid.Column="2" Text="Tracks added:" 
                    FontSize="12" Margin="0,20,0,15"/>
 
         <ListBox x:Name="playListBox"  Grid.Row="1" Grid.Column="2"
@@ -122,7 +122,7 @@
             </Grid.RowDefinitions>
             <Button x:Name="openFileButton" Grid.Row="1" Grid.Column="1" Margin="0,0,0,0" Click="openFileButton_Click">
                 <StackPanel>
-                    <Image Source="E:\C# HW\Personal Proj\RedditToSpotify\SpotifyInterface\Icons\if_Open_1493293.png" />
+                    <Image Source="https://i.imgur.com/gl1kF69.png" />
                 </StackPanel>
             </Button>
             <TextBox x:Name="fileNameTextBox" Grid.Row="1" Grid.Column="2" Text="                       "

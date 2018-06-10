@@ -191,6 +191,8 @@ namespace SpotifyInterface_WPF
             if (newReleases.HasError()) //This might need more graceful integration
                 Console.WriteLine(newReleases.Error.Message);
 
+            Mouse.OverrideCursor = Cursors.Wait;
+
             foreach (string target in tracks)
             {
                 if (target.Contains("EP") || target.Contains("Album") || target.Contains("Remixes"))
@@ -219,6 +221,7 @@ namespace SpotifyInterface_WPF
                         Console.WriteLine(response.Error.Message);
                 }
             }
+            Mouse.OverrideCursor = Cursors.Arrow;
 
             MessageBox.Show("Playlist Created!");
             if (response.HasError()) //This might need more graceful integration
