@@ -71,9 +71,8 @@ namespace SpotifyInterface_WPF
         {
             WebAPIFactory webApiFactory = new WebAPIFactory(
                 "http://localhost", 8000, "78c190180d5e4e79baf28a7ad4c04018",
-                Scope.UserReadPrivate | Scope.UserReadEmail | Scope.PlaylistReadPrivate | Scope.UserLibraryRead |
-                Scope.PlaylistModifyPublic | Scope.UserFollowRead | Scope.UserReadBirthdate | Scope.UserTopRead | Scope.PlaylistReadCollaborative |
-                Scope.UserReadRecentlyPlayed | Scope.UserReadPlaybackState | Scope.UserModifyPlaybackState);
+                 Scope.UserReadEmail | Scope.PlaylistReadPrivate |
+                Scope.PlaylistModifyPublic | Scope.UserReadPlaybackState | Scope.UserModifyPlaybackState);
 
             try
             {
@@ -143,84 +142,23 @@ namespace SpotifyInterface_WPF
         // Consider making this a single conditional checking through an array of phrases to remove
         public string CleanAndFormat(string track)
         {
-            // remove feat. in middle
-            if (track.Contains("feat."))
+            string[] terms = { "feat.", "ft.", "&" };
+
+            foreach (string term in terms)
             {
-                int start = track.IndexOf("feat.");
-                int end = track.IndexOf("-");
-
-                if (start > end) //this loop would be if feat. comes after the - in line of text
+                if (track.Contains(term))
                 {
-                    track = track.Substring(0, start);
+                    int start = track.IndexOf(term);
+                    int end = track.IndexOf("-");
+
+                    if (start > end) //this loop would be if term comes after the - in line of text (ie: Artist - Title feat. Artist)
+                        track = track.Substring(0, start);
+                    else
+                        track = track.Substring(0, start) + (track.Substring(end, (track.Length - end)));
                 }
-                else
-                    track = track.Substring(0, start) + (track.Substring(end, (track.Length - end)));
-            }
-
-            if (track.Contains("ft."))
-            {
-                int start = track.IndexOf("ft.");
-                int end = track.IndexOf("-");
-
-                if (start > end) //this loop would be if ft. comes after the - in line of text
-                {
-                    track = track.Substring(0, start);
-                }
-                else
-                    track = track.Substring(0, start) + (track.Substring(end, (track.Length - end)));
-            }
-
-            if (track.Contains("&"))
-            {
-                int start = track.IndexOf("&");
-                int end = track.IndexOf("-");
-
-                if (start > end) //this loop would be if & comes after the - in line of text
-                {
-                    track = track.Substring(0, start);
-                }
-                else
-                    track = track.Substring(0, start) + (track.Substring(end, (track.Length - end)));
             }
 
             return track;
-        }
-
-        public static string noAnd(String text)
-        {
-            StringBuilder sb = new StringBuilder();
-            char[] content = text.ToCharArray();
-
-            for (int i = 0; i < content.Length; i++)
-            {
-                if (content[i] == '&')
-                    while (content[i] != '-')
-                        i++;
-                sb.Append(content[i]);
-            }
-
-            if (sb.ToString().Contains("feat."))
-                return noFeat(sb.ToString());
-            else
-                return sb.ToString();
-        }
-
-        public static string noFeat(String text)
-        {
-            StringBuilder sb = new StringBuilder();
-            char[] content = text.ToCharArray();
-            for (int i = 0; i < content.Length; i++)
-            {
-                if (content[i] == 'f' && content[i + 1] == 'e' && content[i + 2] == 'a' && content[i + 3] == 't')
-                    while (content[i] != '-')
-                        i++;
-                sb.Append(content[i]);
-            }
-
-            if (sb.ToString().Contains("&"))
-                return noAnd(sb.ToString());
-            else
-                return sb.ToString();
         }
 
         private void CreatePlaylist(List<string> tracks)
