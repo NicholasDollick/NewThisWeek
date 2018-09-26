@@ -133,16 +133,43 @@ namespace SpotifyInterface_WPF
             {
                 if (line != "")
                 {
-                    if (line.Contains("feat."))
-                        tracks.Add(noFeat(line));
-                    else if (line.Contains("&"))
-                        tracks.Add(noAnd(line));
-                    else
-                        tracks.Add(line);
+                    tracks.Add(CleanAndFormat(line));
                 }
             }
 
             return tracks;
+        }
+
+        public string CleanAndFormat(string track)
+        {
+            // remove feat. in middle
+            if (track.Contains("feat."))
+            {
+                int start = track.IndexOf("feat.");
+                int end = track.IndexOf("-");
+
+                if (start > end) //this loop would be if feat. comes after the - in line of text
+                {
+                    track = track.Substring(0, start);
+                }
+                else
+                    track = track.Substring(0, start) + (track.Substring(end, (track.Length - end)));
+            }
+
+            if (track.Contains("&"))
+            {
+                int start = track.IndexOf("&");
+                int end = track.IndexOf("-");
+
+                if (start > end) //this loop would be if & comes after the - in line of text
+                {
+                    track = track.Substring(0, start);
+                }
+                else
+                    track = track.Substring(0, start) + (track.Substring(end, (track.Length - end)));
+            }
+
+            return track;
         }
 
         public static string noAnd(String text)
