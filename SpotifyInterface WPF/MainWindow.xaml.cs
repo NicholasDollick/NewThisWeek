@@ -140,6 +140,7 @@ namespace SpotifyInterface_WPF
             return tracks;
         }
 
+        // Consider making this a single conditional checking through an array of phrases to remove
         public string CleanAndFormat(string track)
         {
             // remove feat. in middle
@@ -149,6 +150,19 @@ namespace SpotifyInterface_WPF
                 int end = track.IndexOf("-");
 
                 if (start > end) //this loop would be if feat. comes after the - in line of text
+                {
+                    track = track.Substring(0, start);
+                }
+                else
+                    track = track.Substring(0, start) + (track.Substring(end, (track.Length - end)));
+            }
+
+            if (track.Contains("ft."))
+            {
+                int start = track.IndexOf("ft.");
+                int end = track.IndexOf("-");
+
+                if (start > end) //this loop would be if ft. comes after the - in line of text
                 {
                     track = track.Substring(0, start);
                 }
