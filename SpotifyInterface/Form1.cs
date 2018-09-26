@@ -185,9 +185,9 @@ namespace SpotifyInterface
         {
             StringBuilder sb = new StringBuilder();
             char[] content = text.ToCharArray();
-            for (int i = 0; i < content.Length; i++)
+            for (int i = 0; i < content.Length - 3; i++)
             {
-                if (content[i] == 'f' && content[i + 2] == 'e' && content[i + 3] == 'a' && content[i + 4] == 't')
+                if (content[i] == 'f' && content[i + 1] == 'e' && content[i + 2] == 'a' && content[i + 3] == 't')
                     while (content[i] != '-')
                         i++;
                 sb.Append(content[i]);
