@@ -30,7 +30,7 @@ namespace SpotifyInterface_WPF
         private ObservableCollection<Song> songs = new ObservableCollection<Song>();
         private SynchronizationContext mainThread;
         private Thread backgroundThread;
-        BackgroundWorker worker = new BackgroundWorker();
+        //private BackgroundWorker worker = new BackgroundWorker();
 
         public MainWindow()
         {
@@ -128,10 +128,8 @@ namespace SpotifyInterface_WPF
                 if (fromFile.IsChecked == true)
                 {
                     tempList = ReadIn(filePath);
-                    Console.WriteLine(tempList);
                     backgroundThread = new Thread(() => CreatePlaylist(tempList));
                     backgroundThread.Start();
-                    //CreatePlaylist(tempList);
                 }
                 else
                     MessageBox.Show("Select Date Type");
@@ -153,7 +151,6 @@ namespace SpotifyInterface_WPF
             return tracks;
         }
 
-        // Consider making this a single conditional checking through an array of phrases to remove
         private string CleanAndFormat(string track)
         {
             string[] terms = { "feat.", "ft.", "&" };
@@ -175,9 +172,8 @@ namespace SpotifyInterface_WPF
             return track;
         }
 
-        public ObservableCollection<Song> GetSong()
+        private ObservableCollection<Song> GetSong()
         {
-            songs.Add(new Song() { SongTitle = "This is a test" });
             return songs;
         }
 
@@ -190,9 +186,8 @@ namespace SpotifyInterface_WPF
             if (newReleases.HasError()) //This might need more graceful integration
                 Console.WriteLine(newReleases.Error.Message);
 
-            mainThread.Post();
-
-            Mouse.OverrideCursor = Cursors.Wait;
+            // Passes cursor update to main thread
+            mainThread.Post((object state) => { Mouse.OverrideCursor = Cursors.Wait; }, null);
 
             foreach (string target in tracks)
             {
@@ -205,7 +200,11 @@ namespace SpotifyInterface_WPF
                         for (int i = 0; i < album.Tracks.Total; i++)
                         {
                             response = spotify.AddPlaylistTrack(profile.Id, newReleases.Id, album.Tracks.Items[i].Uri);
-                            songs.Add(new Song() { SongTitle = album.Tracks.Items[i].Name });
+
+                            // Passes listbox ui update to main thread
+                            mainThread.Send((object state) => {
+                                songs.Add(new Song() { SongTitle = album.Tracks.Items[i].Name });
+                            }, null);
                         }
                     }
                 }
@@ -215,18 +214,25 @@ namespace SpotifyInterface_WPF
                     if (song.Tracks.Items.Count > 0)
                     {
                         response = spotify.AddPlaylistTrack(profile.Id, newReleases.Id, song.Tracks.Items[0].Uri);
-                        songs.Add(new Song() { SongTitle = song.Tracks.Items[0].Name });
+                       
+                        // Passes listbox ui update to main thread
+                        mainThread.Send((object state) => {
+                            songs.Add(new Song() { SongTitle = song.Tracks.Items[0].Name });
+                        }, null);   
                     }
 
                     if (response.HasError()) //This might need more graceful integration
                         Console.WriteLine(response.Error.Message);
                 }
             }
-            Mouse.OverrideCursor = Cursors.Arrow;
 
+            // Passes cursor update to main thread
+            mainThread.Post((object state) => { Mouse.OverrideCursor = Cursors.Arrow; }, null);
+            
             MessageBox.Show("Playlist Created!");
             if (response.HasError()) //This might need more graceful integration
                 Console.WriteLine(response.Error.Message);
+            
         }
 
         private void closeButton_Click(object sender, RoutedEventArgs e)
