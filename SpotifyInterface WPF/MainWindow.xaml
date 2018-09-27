@@ -101,11 +101,18 @@
         <TextBlock Grid.Row="1" Grid.Column="2" Text="Tracks added:" 
                    FontSize="12" Margin="0,20,0,15"/>
 
-        <ListBox x:Name="playListBox"  Grid.Row="1" Grid.Column="2"
+        <ListBox x:Name="playListBox" ItemsSource="{Binding}"  Grid.Row="1" Grid.Column="2"
                  Margin="0,35,0,0" Height="300" Width="150"
                  Grid.RowSpan="4" VerticalAlignment="Stretch"
                  ScrollViewer.VerticalScrollBarVisibility="Visible"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <TextBlock Text= "{Binding SongTitle}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
 
         <Grid Grid.Row="1" Grid.Column="3">

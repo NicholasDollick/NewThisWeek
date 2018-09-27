@@ -12,6 +12,9 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.IO;
 using Microsoft.Win32;
+using System.Collections.ObjectModel;
+using System.Threading;
+using System.ComponentModel;
 
 namespace SpotifyInterface_WPF
 {
@@ -24,11 +27,19 @@ namespace SpotifyInterface_WPF
         private PrivateProfile profile;
         private OpenFileDialog ofd = new OpenFileDialog();
         private string filePath = "";
+        private ObservableCollection<Song> songs = new ObservableCollection<Song>();
+        private SynchronizationContext mainThread;
+        private Thread backgroundThread;
+        BackgroundWorker worker = new BackgroundWorker();
 
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this.GetSong();
             runButton.IsEnabled = false;
+            if (mainThread == null)
+                mainThread = new SynchronizationContext();
+            mainThread = SynchronizationContext.Current;
         }
 
         private async void InitialSetup()
@@ -58,7 +69,7 @@ namespace SpotifyInterface_WPF
             runButton.IsEnabled = true;
         }
 
-        public BitmapSource ByteArrayToImage(byte[] input)
+        private BitmapSource ByteArrayToImage(byte[] input)
         {
             var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
@@ -117,7 +128,10 @@ namespace SpotifyInterface_WPF
                 if (fromFile.IsChecked == true)
                 {
                     tempList = ReadIn(filePath);
-                    CreatePlaylist(tempList);
+                    Console.WriteLine(tempList);
+                    backgroundThread = new Thread(() => CreatePlaylist(tempList));
+                    backgroundThread.Start();
+                    //CreatePlaylist(tempList);
                 }
                 else
                     MessageBox.Show("Select Date Type");
@@ -140,7 +154,7 @@ namespace SpotifyInterface_WPF
         }
 
         // Consider making this a single conditional checking through an array of phrases to remove
-        public string CleanAndFormat(string track)
+        private string CleanAndFormat(string track)
         {
             string[] terms = { "feat.", "ft.", "&" };
 
@@ -161,6 +175,12 @@ namespace SpotifyInterface_WPF
             return track;
         }
 
+        public ObservableCollection<Song> GetSong()
+        {
+            songs.Add(new Song() { SongTitle = "This is a test" });
+            return songs;
+        }
+
         private void CreatePlaylist(List<string> tracks)
         {
             FullPlaylist newReleases = spotify.CreatePlaylist(profile.Id, DateTime.Now.ToString("MM/dd") + " Releases");
@@ -169,6 +189,8 @@ namespace SpotifyInterface_WPF
 
             if (newReleases.HasError()) //This might need more graceful integration
                 Console.WriteLine(newReleases.Error.Message);
+
+            mainThread.Post();
 
             Mouse.OverrideCursor = Cursors.Wait;
 
@@ -183,7 +205,7 @@ namespace SpotifyInterface_WPF
                         for (int i = 0; i < album.Tracks.Total; i++)
                         {
                             response = spotify.AddPlaylistTrack(profile.Id, newReleases.Id, album.Tracks.Items[i].Uri);
-                            playListBox.Items.Add(album.Tracks.Items[i].Name);
+                            songs.Add(new Song() { SongTitle = album.Tracks.Items[i].Name });
                         }
                     }
                 }
@@ -193,7 +215,7 @@ namespace SpotifyInterface_WPF
                     if (song.Tracks.Items.Count > 0)
                     {
                         response = spotify.AddPlaylistTrack(profile.Id, newReleases.Id, song.Tracks.Items[0].Uri);
-                        playListBox.Items.Add(song.Tracks.Items[0].Name);
+                        songs.Add(new Song() { SongTitle = song.Tracks.Items[0].Name });
                     }
 
                     if (response.HasError()) //This might need more graceful integration
