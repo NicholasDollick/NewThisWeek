@@ -30,13 +30,14 @@ namespace SpotifyInterface_WPF
         private ObservableCollection<Song> songs = new ObservableCollection<Song>();
         private SynchronizationContext mainThread;
         private Thread backgroundThread;
-        //private BackgroundWorker worker = new BackgroundWorker();
+        private BackgroundWorker worker = new BackgroundWorker();
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this.GetSong();
             runButton.IsEnabled = false;
+            Status.Text = "Status: -";
             if (mainThread == null)
                 mainThread = new SynchronizationContext();
             mainThread = SynchronizationContext.Current;
@@ -139,7 +140,8 @@ namespace SpotifyInterface_WPF
         private List<string> ReadIn(string fileName)
         {
             List<string> tracks = new List<string>();
-            MessageBox.Show("Reading");
+            //MessageBox.Show("Reading");
+            Status.Text = "Status: Reading";
             foreach (string line in File.ReadAllLines(fileName))
             {
                 if (line != "")
@@ -187,10 +189,11 @@ namespace SpotifyInterface_WPF
                 Console.WriteLine(newReleases.Error.Message);
 
             // Passes cursor update to main thread
-            mainThread.Post((object state) => { Mouse.OverrideCursor = Cursors.Wait; }, null);
+            mainThread.Post((object state) => { Mouse.OverrideCursor = Cursors.Wait; Status.Text = "Status: Searching"; }, null);
+           
 
             foreach (string target in tracks)
-            {
+            { 
                 if (target.Contains("EP") || target.Contains("Album") || target.Contains("Remixes"))
                 {
                     song = spotify.SearchItems(target, SearchType.Album);
@@ -227,9 +230,9 @@ namespace SpotifyInterface_WPF
             }
 
             // Passes cursor update to main thread
-            mainThread.Post((object state) => { Mouse.OverrideCursor = Cursors.Arrow; }, null);
+            mainThread.Post((object state) => { Mouse.OverrideCursor = Cursors.Arrow; Status.Text = "Status: Complete"; }, null);
             
-            MessageBox.Show("Playlist Created!");
+            //MessageBox.Show("Playlist Created!");
             if (response.HasError()) //This might need more graceful integration
                 Console.WriteLine(response.Error.Message);
             

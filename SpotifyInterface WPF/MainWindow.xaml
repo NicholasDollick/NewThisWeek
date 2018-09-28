@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpotifyInterface_WPF"
         mc:Ignorable="d" FontSize="15" FontFamily="Calibri"
-        Title="New This Week" Height="435" Width="520" ResizeMode="CanResize" 
+        Title="New This Week" Height="465" Width="520" ResizeMode="CanResize" 
         SizeToContent="Width" Icon="https://i.imgur.com/7R4HIfJ.png">
-    <Grid>
+    <Grid Margin="0,0,0,-21">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#FFB2B2B2" Offset="0"/>
@@ -95,6 +95,7 @@
         <GroupBox Grid.Row="4" Grid.Column="1" Header="Input Controls" Margin="0,0,5,0">
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical">
                 <RadioButton x:Name="fromFile" Content="Data from file" Margin="0,5,0,5" />
+                <RadioButton x:Name="fromURL" Content="Data from webpage" Margin="0,5,0,5" />
             </StackPanel>
         </GroupBox>
 
@@ -102,7 +103,7 @@
                    FontSize="12" Margin="0,20,0,15"/>
 
         <ListBox x:Name="playListBox" ItemsSource="{Binding}"  Grid.Row="1" Grid.Column="2"
-                 Margin="0,35,0,0" Height="300" Width="150"
+                 Margin="0,35,0,0" Height="320" Width="150"
                  Grid.RowSpan="4" VerticalAlignment="Stretch"
                  ScrollViewer.VerticalScrollBarVisibility="Visible"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
@@ -134,8 +135,20 @@
             </Button>
             <TextBox x:Name="fileNameTextBox" Grid.Row="1" Grid.Column="2" Text="                       "
                      IsEnabled="False">
-
             </TextBox>
+            <Button x:Name="openWebpageButton" Grid.Row="2" Grid.Column="1" Margin="0,6,0,2" Click="openFileButton_Click" IsEnabled="False">
+                <StackPanel>
+                    <Image Source="https://i.imgur.com/VIJTjne.png" />
+                </StackPanel>
+            </Button>
+            <TextBox x:Name="siteUrlTextBox" Grid.Row="2" Grid.Column="2" Margin="0,6,0,2" Text="                       "
+                     IsEnabled="False">
+            </TextBox>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="3">
+            <TextBlock x:Name ="Status" Margin="10,100,0,0"><Run Text="Status: -"/>
+            </TextBlock>
         </Grid>
 
         <Grid Grid.Row="5" Grid.Column="3">
