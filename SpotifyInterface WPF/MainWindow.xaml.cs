@@ -28,6 +28,8 @@ namespace SpotifyInterface_WPF
         private OpenFileDialog ofd = new OpenFileDialog();
         private string filePath = "";
         private ObservableCollection<Song> songs = new ObservableCollection<Song>();
+        private double percentDone = 0;
+        private double counter = 0;
         private SynchronizationContext mainThread;
         private Thread backgroundThread;
         private BackgroundWorker worker = new BackgroundWorker();
@@ -129,6 +131,8 @@ namespace SpotifyInterface_WPF
                 if (fromFile.IsChecked == true)
                 {
                     tempList = ReadIn(filePath);
+                    Console.WriteLine(tempList.Count);
+                    counter = (100 / (double)tempList.Count);
                     backgroundThread = new Thread(() => CreatePlaylist(tempList));
                     backgroundThread.Start();
                 }
@@ -139,8 +143,7 @@ namespace SpotifyInterface_WPF
 
         private List<string> ReadIn(string fileName)
         {
-            List<string> tracks = new List<string>();
-            //MessageBox.Show("Reading");
+            List<string> tracks = new List<string>();;
             Status.Text = "Status: Reading";
             foreach (string line in File.ReadAllLines(fileName))
             {
@@ -227,12 +230,18 @@ namespace SpotifyInterface_WPF
                     if (response.HasError()) //This might need more graceful integration
                         Console.WriteLine(response.Error.Message);
                 }
+
+                // pass percent complete updates to main thread
+                mainThread.Send((object state) => {
+                    percentDone += counter;
+                    Amount.Text = percentDone.ToString("0.") + "%";
+                }, null);
             }
 
             // Passes cursor update to main thread
             mainThread.Post((object state) => { Mouse.OverrideCursor = Cursors.Arrow; Status.Text = "Status: Complete"; }, null);
             
-            //MessageBox.Show("Playlist Created!");
+            MessageBox.Show("Playlist Created!");
             if (response.HasError()) //This might need more graceful integration
                 Console.WriteLine(response.Error.Message);
             

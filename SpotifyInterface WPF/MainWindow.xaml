@@ -149,6 +149,8 @@
         <Grid Grid.Row="1" Grid.Column="3">
             <TextBlock x:Name ="Status" Margin="10,100,0,0"><Run Text="Status: -"/>
             </TextBlock>
+            <TextBlock x:Name ="Amount" Margin="10,120,0,0"><Run Text="Percent: "/>
+            </TextBlock>
         </Grid>
 
         <Grid Grid.Row="5" Grid.Column="3">
