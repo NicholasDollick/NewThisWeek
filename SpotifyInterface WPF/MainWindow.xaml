@@ -141,15 +141,17 @@
                     <Image Source="https://i.imgur.com/VIJTjne.png" />
                 </StackPanel>
             </Button>
-            <TextBox x:Name="siteUrlTextBox" Grid.Row="2" Grid.Column="2" Margin="0,6,0,2" Text="                       "
-                     IsEnabled="False">
-            </TextBox>
+            <Grid Grid.Row="2" Grid.Column="2" Width="100" ScrollViewer.HorizontalScrollBarVisibility="Disabled"> 
+                <TextBox x:Name="siteUrlTextBox" Margin="0,6,0,2" Text=""
+                         IsEnabled="True">
+                </TextBox>
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="3">
             <TextBlock x:Name ="Status" Margin="10,100,0,0"><Run Text="Status: -"/>
             </TextBlock>
-            <ProgressBar x:Name="progressBar" Margin="10,120,10,0" />
+            <ProgressBar x:Name="progressBar" Margin="10,120,10,0" Value="{Binding percentDone}"/>
             <TextBlock x:Name ="Amount" Margin="65,120,65,0"><Run Text="0%"/>
             </TextBlock>
         </Grid>

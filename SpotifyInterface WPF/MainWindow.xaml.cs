@@ -32,7 +32,6 @@ namespace SpotifyInterface_WPF
         private double counter = 0;
         private SynchronizationContext mainThread;
         private Thread backgroundThread;
-        //private BackgroundWorker worker = new BackgroundWorker();
 
         public MainWindow()
         {
@@ -234,7 +233,7 @@ namespace SpotifyInterface_WPF
                 // pass percent complete updates to main thread
                 mainThread.Send((object state) => {
                     percentDone += counter;
-                    progressBar.Value = percentDone;
+                    //progressBar.Value = percentDone;
                     Amount.Text = percentDone.ToString("0.") + "%";
                 }, null);
             }
