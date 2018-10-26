@@ -10,7 +10,7 @@ namespace SpotifyInterface_WPF
 {
     class FromWeb
     {
-        private static List<string> tracks;
+        private static List<string> tracks = new List<string>();
 
         public static List<string> GetData(String url)
         {

@@ -136,16 +136,21 @@ namespace SpotifyInterface_WPF
                 }
             }
 
-            if (fromURL.IsChecked == true)
+            else if (fromURL.IsChecked == true)
             {
                 if (siteUrlTextBox.Text == "")
                     MessageBox.Show("Please Enter Valid URL");
                 else
                 {
                     tempList = FromWeb.GetData(siteUrlTextBox.Text);
-                    counter = (100 / (double)tempList.Count);
-                    backgroundThread = new Thread(() => CreatePlaylist(tempList));
-                    backgroundThread.Start();
+                    if (tempList.Count == 0)
+                        MessageBox.Show("No Items Found");
+                    else
+                    {
+                        counter = (100 / (double)tempList.Count);
+                        backgroundThread = new Thread(() => CreatePlaylist(tempList));
+                        backgroundThread.Start();
+                    }
                 }
             }
 
