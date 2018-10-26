@@ -134,7 +134,7 @@
                 </StackPanel>
             </Button>
             <TextBox x:Name="fileNameTextBox" Grid.Row="1" Grid.Column="2" Text="                       "
-                     IsEnabled="False">
+                     Width ="100"  IsEnabled="False">
             </TextBox>
             <Button x:Name="openWebpageButton" Grid.Row="2" Grid.Column="1" Margin="0,6,0,2" Click="openFileButton_Click" IsEnabled="False">
                 <StackPanel>
