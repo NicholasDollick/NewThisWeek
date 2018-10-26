@@ -123,21 +123,35 @@ namespace SpotifyInterface_WPF
         {
             List<string> tempList = new List<string>();
 
-            if (fileNameTextBox.Text == "                       ")
-                MessageBox.Show("Please Select Valid File");
-            else
+            if (fromFile.IsChecked == true)
             {
-                if (fromFile.IsChecked == true)
+                if (fileNameTextBox.Text == "                       ")
+                    MessageBox.Show("Please Select Valid File");
+                else
                 {
                     tempList = ReadIn(filePath);
-                    Console.WriteLine(tempList.Count);
                     counter = (100 / (double)tempList.Count);
                     backgroundThread = new Thread(() => CreatePlaylist(tempList));
                     backgroundThread.Start();
                 }
-                else
-                    MessageBox.Show("Select Date Type");
             }
+
+            if (fromURL.IsChecked == true)
+            {
+                if (siteUrlTextBox.Text == "")
+                    MessageBox.Show("Please Enter Valid URL");
+                else
+                {
+                    tempList = FromWeb.GetData(siteUrlTextBox.Text);
+                    counter = (100 / (double)tempList.Count);
+                    backgroundThread = new Thread(() => CreatePlaylist(tempList));
+                    backgroundThread.Start();
+                }
+            }
+
+            else
+                MessageBox.Show("Select Date Type");
+
         }
 
         private List<string> ReadIn(string fileName)
