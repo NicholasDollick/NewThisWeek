@@ -2,7 +2,7 @@
 _**tl;dr:** Takes an input either as text file or url, and creates a spotify playlist of all the newest releases of that week via the spotify web API._
 
 As a music lover, a large chunk of time gets spent Thursday nights into Friday mornings creating a playlist of all the newest releases. 
-![alt text](https://i.imgur.com/jNiBAw1.jpg)
+![alt text](https://i.imgur.com/IJarnt6.jpg)
 
 A subreddit I'm active on crowdsources all of the week's new tracks into one convenient post. This master post and the amount of time wasted curating the playlist was the inspiration for this applet. 
 
