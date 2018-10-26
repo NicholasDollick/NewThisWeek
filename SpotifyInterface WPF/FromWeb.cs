@@ -21,7 +21,7 @@ namespace SpotifyInterface_WPF
                 var test = doc.DocumentNode.SelectNodes("//div[@class='s1knm1ot-5 gGDEPn s1hmcfrd-0 ckueCN']").Elements().ToList();
                 foreach (HtmlNode node in test)
                 {
-                    tracks.Add(Regex.Replace(node.InnerText, @"\&#x27;", "'")); //remove artifacts and replaces with proper char
+                    tracks.Add(MainWindow.CleanAndFormat((Regex.Replace(node.InnerText, @"\&#x27;", "'")))); //remove artifacts and replaces with proper char, along side usual clean+format
                 }
             }
             catch (Exception e)

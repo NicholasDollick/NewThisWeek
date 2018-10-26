@@ -122,6 +122,11 @@ namespace SpotifyInterface_WPF
         private void runButton_Click(object sender, RoutedEventArgs e)
         {
             List<string> tempList = new List<string>();
+            if (playListBox.Items.Count > 0)
+            {
+                percentDone = 0;
+                songs.Clear();
+            }
 
             if (fromFile.IsChecked == true)
             {
@@ -143,14 +148,10 @@ namespace SpotifyInterface_WPF
                 else
                 {
                     tempList = FromWeb.GetData(siteUrlTextBox.Text);
-                    if (tempList.Count == 0)
-                        MessageBox.Show("No Items Found");
-                    else
-                    {
-                        counter = (100 / (double)tempList.Count);
-                        backgroundThread = new Thread(() => CreatePlaylist(tempList));
-                        backgroundThread.Start();
-                    }
+                    counter = (100 / (double)tempList.Count);
+                    backgroundThread = new Thread(() => CreatePlaylist(tempList));
+                    backgroundThread.Start();
+                    
                 }
             }
 
@@ -161,7 +162,7 @@ namespace SpotifyInterface_WPF
 
         private List<string> ReadIn(string fileName)
         {
-            List<string> tracks = new List<string>();;
+            List<string> tracks = new List<string>();
             Status.Text = "Status: Reading";
             foreach (string line in File.ReadAllLines(fileName))
             {
@@ -174,7 +175,7 @@ namespace SpotifyInterface_WPF
             return tracks;
         }
 
-        private string CleanAndFormat(string track)
+        public static string CleanAndFormat(string track)
         {
             string[] terms = { "feat.", "ft.", "&" };
 
@@ -252,7 +253,7 @@ namespace SpotifyInterface_WPF
                 // pass percent complete updates to main thread
                 mainThread.Send((object state) => {
                     percentDone += counter;
-                    //progressBar.Value = percentDone;
+                    progressBar.Value = percentDone;
                     Amount.Text = percentDone.ToString("0.") + "%";
                 }, null);
             }
