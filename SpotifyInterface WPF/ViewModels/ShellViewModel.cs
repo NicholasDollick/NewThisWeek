@@ -10,7 +10,6 @@ namespace SpotifyInterface_WPF.ViewModels
 {
     public class ShellViewModel : Conductor<object>
     {
-        private string _firstName;
         private BindableCollection<SongModel> _songs = new BindableCollection<SongModel>();
         private SongModel _selectedSong;
 
@@ -21,20 +20,7 @@ namespace SpotifyInterface_WPF.ViewModels
             Songs.Add(new SongModel { SongTitle = "FireFlies" });
             Songs.Add(new SongModel { SongTitle = "Badam" });
             Songs.Add(new SongModel { SongTitle = "Still There's YOu" });
-        }
-
-        public string FirstName
-        {
-            get
-            {
-                return _firstName;
-            }
-
-            set
-            {
-                _firstName = value;
-                NotifyOfPropertyChange(() => FirstName);
-            }
+            LoadMain();
         }
 
         public BindableCollection<SongModel> Songs
@@ -51,6 +37,11 @@ namespace SpotifyInterface_WPF.ViewModels
                 _selectedSong = value;
                 NotifyOfPropertyChange(() => SelectedSong);
             }
+        }
+        
+        public void LoadMain()
+        {
+            ActivateItem(new MainAppViewModel());
         } 
     }
 }

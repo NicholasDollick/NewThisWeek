@@ -5,9 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpotifyInterface_WPF.Views"
         mc:Ignorable="d"
-        Title="ShellView" Height="300" Width="300">
+        Title="New This Week" Height="465" Width="520"
+        Icon="https://i.imgur.com/7R4HIfJ.png"
+        ResizeMode="CanResize">
     <Grid>
         <ComboBox x:Name="Songs" SelectedItem="{Binding Path=SelectedSong, Mode=OneWayToSource}"
                   DisplayMemberPath="SongTitle"/>
+        <ContentControl x:Name="ActiveItem"/>
     </Grid>
 </Window>
