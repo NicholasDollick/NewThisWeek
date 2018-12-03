@@ -18,17 +18,16 @@ using System.IO;
 namespace SpotifyInterface_WPF.ViewModels
 {
     public class MainAppViewModel : Screen
-    {
-        private UserModel _user;
+    { 
         private string _userName = "-";
         private string _userCountry = "-";
         private string _userEmail = "-";
         private string _userAccountType = "-";
         private SpotifyWebAPI _spotify;
         private PrivateProfile _profile;
-        private string ImageSource = "https://i.imgur.com/8IHaKKE.png";
-        BitmapImage image = new BitmapImage();
-
+        private static string DefaultImage = "https://i.imgur.com/8IHaKKE.png";
+        private BitmapImage icon = new BitmapImage(new Uri(DefaultImage, UriKind.Absolute));
+        
         public string UserName
         {
             get { return _userName;  }
@@ -69,33 +68,28 @@ namespace SpotifyInterface_WPF.ViewModels
             }
         }
 
-        public object DisplayedImage
+        public BitmapImage DisplayedImage
         {
             get
             {
-                try
-                {
-                    image.BeginInit();
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-                    image.UriSource = new Uri(ImageSource, UriKind.Absolute);
-                    image.EndInit();
-                }
-                catch
-                {
-                    return DependencyProperty.UnsetValue;
-                }
-
-                return image;
+                return icon;
             }
             set
             {
-                image = (BitmapImage)value; //this is a REALLY spicy cast
+                icon = value;
                 NotifyOfPropertyChange(() => DisplayedImage);
             }
         }
 
-        public async void AuthButton()
+        public bool CanAuthSession(string userName)
+        {
+            if (userName.Equals("-"))
+                return true;
+            else
+                return false;
+        }
+
+        public async void AuthSession(string userName)
         {
             WebAPIFactory webApiFactory = new WebAPIFactory(
                 "http://localhost", 8000, "78c190180d5e4e79baf28a7ad4c04018", Scope.UserReadEmail | Scope.PlaylistReadPrivate |
@@ -120,7 +114,6 @@ namespace SpotifyInterface_WPF.ViewModels
 
         private async void InitialSetup()
         { 
-            //authButton.IsEnabled = false; Figure out how to make this funct work plz future me
             _profile = await _spotify.GetPrivateProfileAsync();
             UserName = _profile.DisplayName;
             UserCountry = _profile.Country;
@@ -132,13 +125,12 @@ namespace SpotifyInterface_WPF.ViewModels
                 using (WebClient wc = new WebClient())
                 {
                     byte[] imageBytes = await wc.DownloadDataTaskAsync(new Uri(_profile.Images[0].Url));
-                    DisplayedImage = ByteArrayToImage(imageBytes); //this does something, but not correctly
+                    icon = (BitmapImage)ByteArrayToImage(imageBytes); //this is a spicy cast
+                    NotifyOfPropertyChange(() => DisplayedImage);
                 }
             }
-            //Mouse.OverrideCursor = Cursors.Arrow;
-            //runButton.IsEnabled = true;
         }
-
+        
         private BitmapSource ByteArrayToImage(byte[] input)
         {
             var bitmapImage = new BitmapImage();
@@ -148,14 +140,22 @@ namespace SpotifyInterface_WPF.ViewModels
             return bitmapImage;
         }
 
-        public UserModel User
+        public bool CanRunLogic(string userName)
         {
-            get { return _user; }
-            set
-            {
-                _user = value;
-                NotifyOfPropertyChange(() => User);
-            }
+            if (userName.Equals("-"))
+                return false;
+            else
+                return true;
+        }
+
+        public void RunLogic(string userName)
+        {
+
+        }
+
+        public void Close() // this doesnt do what it seems like it does
+        {
+            TryClose();
         }
     }
 }

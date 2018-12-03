@@ -15,12 +15,8 @@ namespace SpotifyInterface_WPF.ViewModels
 
         public ShellViewModel()
         {
-            Songs.Add(new SongModel { SongTitle = "test" });
-            Songs.Add(new SongModel { SongTitle = "Will We Remain?" });
-            Songs.Add(new SongModel { SongTitle = "FireFlies" });
-            Songs.Add(new SongModel { SongTitle = "Badam" });
-            Songs.Add(new SongModel { SongTitle = "Still There's YOu" });
-            LoadMain();
+           // Songs.Add(new SongModel { SongTitle = "FireFlies" });
+           LoadMain();
         }
 
         public BindableCollection<SongModel> Songs

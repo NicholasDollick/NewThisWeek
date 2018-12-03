@@ -92,6 +92,8 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="FromWeb.cs" />
+    <Compile Include="ICloseable.cs" />
+    <Compile Include="ImageConverter.cs" />
     <Compile Include="Logic.cs" />
     <Compile Include="Models\SongModel.cs" />
     <Compile Include="Models\UserModel.cs" />

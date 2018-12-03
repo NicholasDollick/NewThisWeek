@@ -7,10 +7,8 @@
         mc:Ignorable="d"
         Title="New This Week" Height="465" Width="520"
         Icon="https://i.imgur.com/7R4HIfJ.png"
-        ResizeMode="CanResize">
+        ResizeMode="CanResize" SizeToContent="WidthAndHeight">
     <Grid>
-        <ComboBox x:Name="Songs" SelectedItem="{Binding Path=SelectedSong, Mode=OneWayToSource}"
-                  DisplayMemberPath="SongTitle"/>
         <ContentControl x:Name="ActiveItem"/>
     </Grid>
 </Window>
