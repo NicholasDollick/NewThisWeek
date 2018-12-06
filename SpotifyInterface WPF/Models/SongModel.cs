@@ -10,6 +10,8 @@ namespace SpotifyInterface_WPF.Models
     {
         public string SongTitle { get; set; }
 
+        public string SongArtist { get; set; }
+
         public string SongURI { get; set; }
     }
 }

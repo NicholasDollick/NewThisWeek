@@ -4,8 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SpotifyInterface_WPF.Views"
+             xmlns:l="clr-namespace:SpotifyInterface_WPF"
              mc:Ignorable="d" 
              d:DesignHeight="465" d:DesignWidth="520">
+    <UserControl.Resources>
+        <l:BoolInverterConverter x:Key="BoolInverterConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -90,14 +94,18 @@
 
         <GroupBox Grid.Row="4" Grid.Column="1" Header="Input Controls" Margin="0,0,5,0">
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical">
-                <RadioButton x:Name="fromFile" Content="Data from file" Margin="0,5,0,5" />
-                <RadioButton x:Name="fromURL" Content="Data from webpage" Margin="0,5,0,5" />
+                <RadioButton Content="Data from file" Margin="0,5,0,5" 
+                             IsChecked="{Binding Path=FromFile,Mode=TwoWay,
+                    Converter={StaticResource BoolInverterConverter}}"/>
+                <RadioButton Content="Data from webpage" Margin="0,5,0,5"
+                              IsChecked="{Binding Path=FromWeb,Mode=TwoWay,
+                    Converter={StaticResource BoolInverterConverter}}"/>
             </StackPanel>
         </GroupBox>
 
         <TextBlock Grid.Row="1" Grid.Column="2" Text="Tracks added:" 
                    FontSize="12" Margin="0,20,0,15"/>
-        <ListBox x:Name="playListBox" ItemsSource="{Binding}"  Grid.Row="1" Grid.Column="2"
+        <ListBox x:Name="playListBox" ItemsSource="{Binding Songs}"  Grid.Row="1" Grid.Column="2"
                  Margin="0,35,0,0" Height="320" Width="150"
                  Grid.RowSpan="4" VerticalAlignment="Stretch"
                  ScrollViewer.VerticalScrollBarVisibility="Visible"
@@ -105,7 +113,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Margin="2">
-                        <TextBlock Text= "{Binding SelectedSong, Mode=OneWayToSource}"/>
+                        <TextBlock Text= "{Binding Path=SongTitle}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -128,7 +136,8 @@
                     <Image Source="https://i.imgur.com/gl1kF69.png" />
                 </StackPanel>
             </Button>
-            <TextBox x:Name="fileNameTextBox" Grid.Row="1" Grid.Column="2" Text="                       "
+            <TextBox x:Name="fileNameTextBox" 
+                     Grid.Row="1" Grid.Column="2" Text="{Binding FileName}"
                      Width ="100"  IsEnabled="False">
             </TextBox>
             <Button x:Name="openWebpageButton" Grid.Row="2" Grid.Column="1" Margin="0,6,0,2" IsEnabled="False">
@@ -163,11 +172,7 @@
             </Grid.RowDefinitions>
 
             <Button x:Name="RunLogic" Grid.Row="1" Grid.Column="0" Content="     Run     " FontSize="12"
-                    Margin="10,10,0,10"/>
-
-            <Button x:Name="Close" Grid.Row="1" Grid.Column="1" Content="     Exit     " FontSize="12"
-                    Margin="10,10,0,10"/>
-
+                    Margin="50,10,0,10"/>
         </Grid>
 
     </Grid>

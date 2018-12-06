@@ -9,11 +9,11 @@ using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;
 using SpotifyAPI.Web;
 using System.Windows;
-using System.Windows.Threading;
 using SpotifyAPI.Web.Models;
 using System.Net;
 using System.Windows.Media.Imaging;
 using System.IO;
+using System.Threading;
 
 namespace SpotifyInterface_WPF.ViewModels
 {
@@ -23,11 +23,26 @@ namespace SpotifyInterface_WPF.ViewModels
         private string _userCountry = "-";
         private string _userEmail = "-";
         private string _userAccountType = "-";
+        private bool _fromFile = false;
+        private bool _fromWeb = false;
+        private string _fileName = "";
+        private string _filePath = "";
         private SpotifyWebAPI _spotify;
         private PrivateProfile _profile;
         private static string DefaultImage = "https://i.imgur.com/8IHaKKE.png";
         private BitmapImage icon = new BitmapImage(new Uri(DefaultImage, UriKind.Absolute));
-        
+        private BindableCollection<SongModel> _songs = new BindableCollection<SongModel>();
+        private SongModel _selectedSong;
+        private SynchronizationContext mainThread;
+        private readonly Logic Controller = new Logic();
+
+        public MainAppViewModel()
+        {
+            if (mainThread == null)
+                mainThread = new SynchronizationContext();
+            mainThread = SynchronizationContext.Current;
+        }
+
         public string UserName
         {
             get { return _userName;  }
@@ -65,6 +80,46 @@ namespace SpotifyInterface_WPF.ViewModels
             {
                 _userAccountType = value;
                 NotifyOfPropertyChange(() => UserAccountType);
+            }
+        }
+
+        public string FileName
+        {
+            get { return _fileName; }
+            set
+            {
+                _fileName = value;
+                NotifyOfPropertyChange(() => FileName);
+            }
+        }
+
+        public string FilePath
+        {
+            get { return _filePath; }
+            set
+            {
+                _filePath = value;
+                NotifyOfPropertyChange(() => FilePath);
+            }
+        }
+
+        public bool FromFile
+        {
+            get { return _fromFile;  }
+            set
+            {
+                _fromFile = value;
+                NotifyOfPropertyChange(() => FromFile);
+            }
+        }
+
+        public bool FromWeb
+        {
+            get { return _fromWeb; }
+            set
+            {
+                _fromWeb = value;
+                NotifyOfPropertyChange(() => FromWeb);
             }
         }
 
@@ -120,6 +175,9 @@ namespace SpotifyInterface_WPF.ViewModels
             UserEmail = _profile.Email;
             UserAccountType = _profile.Product;
 
+            // this entire method might be able to be done in external class.
+            // would allow the view to just display whatever got passed back?
+            // perhaps even toss all of the spotify api things into a logic class
             if (_profile.Images != null && _profile.Images.Count > 0)
             {
                 using (WebClient wc = new WebClient())
@@ -140,6 +198,23 @@ namespace SpotifyInterface_WPF.ViewModels
             return bitmapImage;
         }
 
+        
+        public BindableCollection<SongModel> Songs
+        {
+            get { return _songs; }
+            set { _songs = value; }
+        } 
+
+        public SongModel SelectedSong
+        {
+            get { return _selectedSong; }
+            set
+            {
+                _selectedSong = value;
+                NotifyOfPropertyChange(() => SelectedSong);
+            }
+        }
+
         public bool CanRunLogic(string userName)
         {
             if (userName.Equals("-"))
@@ -148,14 +223,21 @@ namespace SpotifyInterface_WPF.ViewModels
                 return true;
         }
 
-        public void RunLogic(string userName)
+        public async void RunLogic(string userName)
         {
+            await Task.Run(() =>
+            {
+                while (true)
+                {
+                    //Songs.Add(new SongModel() { SongTitle = "A really long song name like lmao what the fuck" });
+                    if(FromWeb)
+                        Controller.test(mainThread, _songs);
+                    
+                    //Logic.test(mainThread, _songs);
+                    Thread.Sleep(1000);
+                }
+            });
 
-        }
-
-        public void Close() // this doesnt do what it seems like it does
-        {
-            TryClose();
         }
     }
 }
