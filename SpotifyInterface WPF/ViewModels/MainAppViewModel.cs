@@ -27,6 +27,8 @@ namespace SpotifyInterface_WPF.ViewModels
         private bool _fromWeb = false;
         private string _fileName = "";
         private string _filePath = "";
+        private double _percentDone = 55;
+        private string _amount = "0%";
         private SpotifyWebAPI _spotify;
         private PrivateProfile _profile;
         private static string DefaultImage = "https://i.imgur.com/8IHaKKE.png";
@@ -35,6 +37,8 @@ namespace SpotifyInterface_WPF.ViewModels
         private SongModel _selectedSong;
         private SynchronizationContext mainThread;
         private readonly Logic Controller = new Logic();
+        private readonly SongModel model;
+        private BindableCollection<SongModel> test = new BindableCollection<SongModel>();
 
         public MainAppViewModel()
         {
@@ -123,6 +127,26 @@ namespace SpotifyInterface_WPF.ViewModels
             }
         }
 
+        public double PercentDone
+        {
+            get { return _percentDone; }
+            set
+            {
+                _percentDone = value;
+                NotifyOfPropertyChange(() => PercentDone);
+            }
+        }
+
+        public string Amount
+        {
+            get { return _amount; }
+            set
+            {
+                _amount = value;
+                NotifyOfPropertyChange(() => Amount);
+            }
+        }
+
         public BitmapImage DisplayedImage
         {
             get
@@ -198,12 +222,11 @@ namespace SpotifyInterface_WPF.ViewModels
             return bitmapImage;
         }
 
-        
         public BindableCollection<SongModel> Songs
         {
             get { return _songs; }
             set { _songs = value; }
-        } 
+        }
 
         public SongModel SelectedSong
         {
@@ -215,6 +238,7 @@ namespace SpotifyInterface_WPF.ViewModels
             }
         }
 
+
         public bool CanRunLogic(string userName)
         {
             if (userName.Equals("-"))
@@ -225,16 +249,27 @@ namespace SpotifyInterface_WPF.ViewModels
 
         public async void RunLogic(string userName)
         {
+            if(FromFile)
+                try
+                {
+                    await Task.Run(() =>
+                   Controller.CreatePlaylist(_songs, _spotify, _profile, null);
+                        );
+                } catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                }
+
+
             await Task.Run(() =>
             {
                 while (true)
                 {
-                    //Songs.Add(new SongModel() { SongTitle = "A really long song name like lmao what the fuck" });
-                    if(FromWeb)
-                        Controller.test(mainThread, _songs);
+                    if (FromWeb)
+                        Controller.test(_songs);
                     
-                    //Logic.test(mainThread, _songs);
-                    Thread.Sleep(1000);
+                    Thread.Sleep(5000);
+                    
                 }
             });
 

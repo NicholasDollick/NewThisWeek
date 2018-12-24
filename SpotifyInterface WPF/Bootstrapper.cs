@@ -6,6 +6,13 @@ namespace SpotifyInterface_WPF
 {
     public class Bootstrapper : BootstrapperBase
     {
+        private readonly SimpleContainer _container = new SimpleContainer();
+
+        protected override void Configure()
+        {
+            _container.Singleton<IEventAggregator, EventAggregator>();
+        }
+
         public Bootstrapper()
         {
             Initialize();

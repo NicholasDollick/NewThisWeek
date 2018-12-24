@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="New This Week" Height="465" Width="520"
         Icon="https://i.imgur.com/7R4HIfJ.png"
-        ResizeMode="CanResize" SizeToContent="WidthAndHeight">
+        ResizeMode="CanResize" SizeToContent="Width">
     <Grid>
         <ContentControl x:Name="ActiveItem"/>
     </Grid>

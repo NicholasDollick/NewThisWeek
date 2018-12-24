@@ -12,13 +12,15 @@ using SpotifyInterface_WPF.Models;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
+using SpotifyInterface_WPF.Models;
 
 namespace SpotifyInterface_WPF
 {
     public class Logic : INotifyPropertyChanged
     {
-        private BindableCollection<SongModel> _songs = new BindableCollection<SongModel>();
-        private SongModel _selectedSong;
+        private SpotifyWebAPI _spotify;
+        private PrivateProfile _profile;
+        public static BindableCollection<SongModel> _songs = new BindableCollection<SongModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -69,18 +71,22 @@ namespace SpotifyInterface_WPF
             return track;
         }
 
-        public void test(SynchronizationContext _thread, BindableCollection<SongModel> songs)
+        public void hello()
+        {
+            _songs.Add(new SongModel() { SongTitle = "bitch" });
+
+        }
+
+        public void test(BindableCollection<SongModel> songs)
         {
             while (true)
             {
-                _thread.Send((object state) => {
-                    songs.Add(new SongModel() { SongTitle = "test" });
-                }, null);
+                songs.Add(new SongModel() { SongTitle = "test" });
             }
         }
 
 
-        private void CreatePlaylist(SynchronizationContext mainThread, BindableCollection<SongModel> songs, SpotifyWebAPI spotify, PrivateProfile profile, List<string> tracks)
+        public void CreatePlaylist(BindableCollection<SongModel> songs, SpotifyWebAPI spotify, PrivateProfile profile, List<string> tracks)
         {
             FullPlaylist newReleases = spotify.CreatePlaylist(profile.Id, DateTime.Now.ToString("MM/dd") + " Releases");
             SearchItem song = new SearchItem();
@@ -88,9 +94,6 @@ namespace SpotifyInterface_WPF
 
             if (newReleases.HasError()) //This might need more graceful integration
                 Console.WriteLine(newReleases.Error.Message);
-
-            // Passes cursor update to main thread
-            //mainThread.Post((object state) => { Mouse.OverrideCursor = Cursors.Wait; Status.Text = "Status: Searching"; }, null);
 
 
             foreach (string target in tracks)
@@ -105,10 +108,7 @@ namespace SpotifyInterface_WPF
                         {
                             response = spotify.AddPlaylistTrack(profile.Id, newReleases.Id, album.Tracks.Items[i].Uri);
 
-                            // Passes listbox ui update to main thread
-                            mainThread.Send((object state) => {
-                              songs.Add(new SongModel() { SongTitle = album.Tracks.Items[i].Name });
-                            }, null);
+                            songs.Add(new SongModel() { SongTitle = album.Tracks.Items[i].Name });
                         }
                     }
                 }
@@ -119,31 +119,41 @@ namespace SpotifyInterface_WPF
                     {
                         response = spotify.AddPlaylistTrack(profile.Id, newReleases.Id, song.Tracks.Items[0].Uri);
 
-                        // Passes listbox ui update to main thread
-                        mainThread.Send((object state) => {
-                            songs.Add(new SongModel() { SongTitle = song.Tracks.Items[0].Name });
-                        }, null);
+                        songs.Add(new SongModel() { SongTitle = song.Tracks.Items[0].Name });
                     }
 
                     if (response.HasError()) //This might need more graceful integration
                         Console.WriteLine(response.Error.Message);
                 }
-
-
-                // pass percent complete updates to main thread
-                /*
-                mainThread.Send((object state) => {
-                    percentDone += counter;
-                    progressBar.Value = percentDone;
-                    Amount.Text = percentDone.ToString("0.") + "%";
-                }, null);
-                */
             }
 
-            //MessageBox.Show("Playlist Created!");
             if (response.HasError()) //This might need more graceful integration
                 Console.WriteLine(response.Error.Message);
 
+
+        }
+
+        public async void Auth()
+        {
+            WebAPIFactory webApiFactory = new WebAPIFactory(
+                "http://localhost", 8000, "78c190180d5e4e79baf28a7ad4c04018", Scope.UserReadEmail | Scope.PlaylistReadPrivate |
+                Scope.PlaylistModifyPublic | Scope.UserReadPlaybackState | Scope.UserModifyPlaybackState);
+
+            try
+            {
+                _spotify = await webApiFactory.GetWebApi();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+            if (_spotify == null)
+            {
+                return;
+            }
+
+            InitialSetup();
         }
     }
 }

@@ -156,7 +156,7 @@
         <Grid Grid.Row="1" Grid.Column="3">
             <TextBlock x:Name ="Status" Margin="10,100,0,0"><Run Text="Status: -"/>
             </TextBlock>
-            <ProgressBar x:Name="progressBar" Margin="10,120,10,0" Value="{Binding percentDone}"/>
+            <ProgressBar x:Name="progressBar" Margin="10,120,10,0" Value="{Binding PercentDone}"/>
             <TextBlock x:Name ="Amount" Margin="65,120,65,0"><Run Text="0%"/>
             </TextBlock>
         </Grid>
