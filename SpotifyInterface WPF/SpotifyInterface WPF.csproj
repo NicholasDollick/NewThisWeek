@@ -94,6 +94,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="FromWeb.cs" />
     <Compile Include="Logic.cs" />
+    <Compile Include="Models\SpotifyModel.cs" />
     <Compile Include="Models\SongModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Song.cs" />

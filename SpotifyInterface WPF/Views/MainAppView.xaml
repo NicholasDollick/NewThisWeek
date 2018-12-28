@@ -105,7 +105,7 @@
 
         <TextBlock Grid.Row="1" Grid.Column="2" Text="Tracks added:" 
                    FontSize="12" Margin="0,20,0,15"/>
-        <ListBox x:Name="playListBox" ItemsSource="{Binding Songs}"  Grid.Row="1" Grid.Column="2"
+        <ListBox x:Name="playListBox" ItemsSource="{Binding Path=Songs}"  Grid.Row="1" Grid.Column="2"
                  Margin="0,35,0,0" Height="320" Width="150"
                  Grid.RowSpan="4" VerticalAlignment="Stretch"
                  ScrollViewer.VerticalScrollBarVisibility="Visible"
@@ -154,7 +154,7 @@
 
 
         <Grid Grid.Row="1" Grid.Column="3">
-            <TextBlock x:Name ="Status" Margin="10,100,0,0"><Run Text="Status: -"/>
+            <TextBlock x:Name ="Status" Margin="10,100,0,0"><Run Text="Status: -"/> 
             </TextBlock>
             <ProgressBar x:Name="progressBar" Margin="10,120,10,0" Value="{Binding PercentDone}"/>
             <TextBlock x:Name ="Amount" Margin="65,120,65,0"><Run Text="0%"/>

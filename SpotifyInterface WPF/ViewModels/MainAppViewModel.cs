@@ -28,24 +28,11 @@ namespace SpotifyInterface_WPF.ViewModels
         private string _fileName = "";
         private string _filePath = "";
         private double _percentDone = 55;
-        private string _amount = "0%";
-        private SpotifyWebAPI _spotify;
-        private PrivateProfile _profile;
-        private static string DefaultImage = "https://i.imgur.com/8IHaKKE.png";
+        private string _amount = "55%";
+        private static readonly string DefaultImage = "https://i.imgur.com/8IHaKKE.png";
         private BitmapImage icon = new BitmapImage(new Uri(DefaultImage, UriKind.Absolute));
         private BindableCollection<SongModel> _songs = new BindableCollection<SongModel>();
-        private SongModel _selectedSong;
-        private SynchronizationContext mainThread;
         private readonly Logic Controller = new Logic();
-        private readonly SongModel model;
-        private BindableCollection<SongModel> test = new BindableCollection<SongModel>();
-
-        public MainAppViewModel()
-        {
-            if (mainThread == null)
-                mainThread = new SynchronizationContext();
-            mainThread = SynchronizationContext.Current;
-        }
 
         public string UserName
         {
@@ -168,58 +155,24 @@ namespace SpotifyInterface_WPF.ViewModels
                 return false;
         }
 
-        public async void AuthSession(string userName)
+        public void AuthSession(string userName)
         {
-            WebAPIFactory webApiFactory = new WebAPIFactory(
-                "http://localhost", 8000, "78c190180d5e4e79baf28a7ad4c04018", Scope.UserReadEmail | Scope.PlaylistReadPrivate |
-                Scope.PlaylistModifyPublic | Scope.UserReadPlaybackState | Scope.UserModifyPlaybackState);
-
-            try
-            {
-                _spotify = await webApiFactory.GetWebApi();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-            if(_spotify == null)
-            {
-                return;
-            }
-
             InitialSetup();
         }
 
         private async void InitialSetup()
-        { 
-            _profile = await _spotify.GetPrivateProfileAsync();
-            UserName = _profile.DisplayName;
-            UserCountry = _profile.Country;
-            UserEmail = _profile.Email;
-            UserAccountType = _profile.Product;
-
-            // this entire method might be able to be done in external class.
-            // would allow the view to just display whatever got passed back?
-            // perhaps even toss all of the spotify api things into a logic class
-            if (_profile.Images != null && _profile.Images.Count > 0)
-            {
-                using (WebClient wc = new WebClient())
-                {
-                    byte[] imageBytes = await wc.DownloadDataTaskAsync(new Uri(_profile.Images[0].Url));
-                    icon = (BitmapImage)ByteArrayToImage(imageBytes); //this is a spicy cast
-                    NotifyOfPropertyChange(() => DisplayedImage);
-                }
-            }
-        }
-        
-        private BitmapSource ByteArrayToImage(byte[] input)
         {
-            var bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
-            bitmapImage.StreamSource = new MemoryStream(input);
-            bitmapImage.EndInit();
-            return bitmapImage;
+            await Task.Run(() =>
+            {
+                Controller.Auth();
+            });
+            UserName = Controller.GetDisplayName();
+            UserCountry = Controller.GetCountry();
+            UserEmail = Controller.GetEmail();
+            UserAccountType = Controller.GetProduct();
+            icon = Controller.GetImage();
+
+            NotifyOfPropertyChange(() => DisplayedImage);
         }
 
         public BindableCollection<SongModel> Songs
@@ -227,17 +180,6 @@ namespace SpotifyInterface_WPF.ViewModels
             get { return _songs; }
             set { _songs = value; }
         }
-
-        public SongModel SelectedSong
-        {
-            get { return _selectedSong; }
-            set
-            {
-                _selectedSong = value;
-                NotifyOfPropertyChange(() => SelectedSong);
-            }
-        }
-
 
         public bool CanRunLogic(string userName)
         {
@@ -249,30 +191,17 @@ namespace SpotifyInterface_WPF.ViewModels
 
         public async void RunLogic(string userName)
         {
-            if(FromFile)
-                try
-                {
-                    await Task.Run(() =>
-                   Controller.CreatePlaylist(_songs, _spotify, _profile, null);
-                        );
-                } catch (Exception e)
-                {
-                    Console.WriteLine(e.StackTrace);
-                }
-
-
-            await Task.Run(() =>
+            if (FromFile)
             {
-                while (true)
-                {
-                    if (FromWeb)
-                        Controller.test(_songs);
-                    
-                    Thread.Sleep(5000);
-                    
-                }
-            });
+                Controller.InitPlaylist();
 
+                // this needs to be in a try catch loop when testing phase complete 
+                foreach (var track in Controller.ReadIn("Releases.txt"))
+                    await Task.Run(() => {
+                        _songs.Add(Controller.test(track));
+                        Console.WriteLine(track);
+                    });
+            }
         }
     }
 }
