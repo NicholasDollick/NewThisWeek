@@ -1,6 +1,8 @@
 # NewThisWeek
 _**tl;dr:** Takes an input either as text file or url, and creates a spotify playlist of all the newest releases of that week via the spotify web API._
 
+**A web based version of this software can be found at: https://new-this-week.firebaseapp.com/**
+
 As a music lover, a large chunk of time gets spent Thursday nights into Friday mornings creating a playlist of all the newest releases. 
 ![alt text](https://i.imgur.com/IJarnt6.jpg)
 
