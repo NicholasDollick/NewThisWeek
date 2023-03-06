@@ -37,5 +37,11 @@
         <TextBlock Grid.Row="3" Grid.Column="3" Text="New This Week"
                    FontFamily="Franklin Gothic Book" FontWeight="Bold"
                    TextAlignment="Center"/>
+
+        <Button Grid.Column="3" Grid.Row="4" Height="20"
+                Content="Login With Spotify" Margin="4 0 4 0"
+                FontSize="10"
+                Padding="3 0 3 0">
+        </Button>
     </Grid>
 </UserControl>

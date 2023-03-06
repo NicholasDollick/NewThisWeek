@@ -1,10 +1,5 @@
-﻿using SpotifyAPI.Web;
-using SpotifyAPI.Web.Models;
-using System;
+﻿using System;
 using System.Windows;
-using Microsoft.Win32;
-using System.Collections.ObjectModel;
-using System.Threading;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 using SpotifyInterface_WPF.ViewModels;

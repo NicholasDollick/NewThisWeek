@@ -1,4 +1,4 @@
-﻿  using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +13,13 @@ using System.Net;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Threading;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace SpotifyInterface_WPF.ViewModels
 {
-    public class MainAppViewModel
-    { 
+    public class MainAppViewModel : BaseViewModel
+    {
         //private string _userName = "-";
         //private string _userCountry = "-";
         //private string _userEmail = "-";
@@ -103,13 +105,14 @@ namespace SpotifyInterface_WPF.ViewModels
         //    }
         //}
 
+        // this one is updated
         //public bool FromWeb
         //{
         //    get { return _fromWeb; }
         //    set
         //    {
         //        _fromWeb = value;
-        //        NotifyOfPropertyChange(() => FromWeb);
+        //        OnPropertyChanged("FromWeb");
         //    }
         //}
 
@@ -123,13 +126,13 @@ namespace SpotifyInterface_WPF.ViewModels
         //    }
         //}
 
+        // this one is updated
         //public string Amount
         //{
         //    get { return _amount; }
         //    set
         //    {
-        //        _amount = value;
-        //        NotifyOfPropertyChange(() => Amount);
+        //        SetField(ref this._amount, value, "Amount"); // in theory this is the most proper way. check under hood
         //    }
         //}
 
@@ -174,14 +177,23 @@ namespace SpotifyInterface_WPF.ViewModels
         //    NotifyOfPropertyChange(() => DisplayedImage);
         //}
 
-        //public BindableCollection<SongModel> Songs
+        // this one is updated
+        //public ObservableCollection<SongModel> Songs
         //{
-        //    get { return _songs; }
-        //    set { _songs = value; }
+        //    get => this._songs;
+        //    set
+        //    {
+        //        SetField(ref this._songs, value, "Songs");
+        //        if (value == null)
+        //            return;
+
+        //        this._songs.CollectionChanged += ((object sender, NotifyCollectionChangedEventArgs args) => {
+        //            OnPropertyChanged("Songs");
+        //        });
+        //    }
         //}
 
-        //public bool CanRunLogic(string userName)
-        //{
+        //public bool CanRunLogic(string userName) {
         //    if (userName.Equals("-"))
         //        return false;
         //    else

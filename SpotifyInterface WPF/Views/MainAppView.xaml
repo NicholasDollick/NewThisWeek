@@ -4,12 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SpotifyInterface_WPF.Views"
+             xmlns:context="clr-namespace:SpotifyInterface_WPF.ViewModels"
+             xmlns:helper="clr-namespace:SpotifyInterface_WPF.Helpers"
              xmlns:l="clr-namespace:SpotifyInterface_WPF"
              mc:Ignorable="d" 
              d:DesignHeight="465" d:DesignWidth="520">
     <UserControl.Resources>
         <l:BoolInverterConverter x:Key="BoolInverterConverter"/>
     </UserControl.Resources>
+    <!--<UserControl.DataContext>
+        --><!--<context:MainAppViewModel/>--><!--
+    </UserControl.DataContext>-->
     <Grid>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

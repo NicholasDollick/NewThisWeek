@@ -8,7 +8,7 @@ namespace SpotifyInterface_WPF.ViewModels
         private ICommand _loginCommand;
         private bool _canExecute;
 
-
+        
         public LoginViewModel() {
             LoginCommand = new RelayCommand(AttemptLogin, param => _canExecute);
         }
