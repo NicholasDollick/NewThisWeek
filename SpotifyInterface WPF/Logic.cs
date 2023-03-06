@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Models;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;
-using Caliburn.Micro;
 using SpotifyInterface_WPF.Models;
 using System.ComponentModel;
 using System.IO;
-using System.Threading;
 using System.Windows.Media.Imaging;
 using System.Net;
 
@@ -196,6 +191,5 @@ namespace SpotifyInterface_WPF
             bitmapImage.EndInit();
             return bitmapImage;
         }
-
     }
 }
